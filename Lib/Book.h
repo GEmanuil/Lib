@@ -2,9 +2,9 @@
 #include "Paper.h"
 class Book : public Paper
 {
-protected:
-	char* autor;
-	char* publisher;
+public:
+	char autor[1024];
+	char publisher[1024];
 	int gener;
 };
 

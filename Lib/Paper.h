@@ -1,9 +1,10 @@
 #pragma once
 class Paper
 {
-protected:
-	char* title;
+public:
+	char title[1024];
 	long long dateOfIssue;
-	char* shortDescription;
+	char shortDescription[1024];
+	int libNumber;
 };
 

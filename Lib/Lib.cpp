@@ -18,9 +18,15 @@ int main()
         Library lib;
         while (strcmp(command, "close"))
         {
-            std::cin >> command;
+            if (!strcmp(command, "add paper"))
+            {
+                lib.addPaper(command);
+            }
+
+            std::cin.getline(command, 1024);
         }
     }
+
     else if (!strcmp(command, "close"))
     {
         std::cout << "The library is not opened!!!" << endl;
