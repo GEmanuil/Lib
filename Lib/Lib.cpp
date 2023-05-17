@@ -21,8 +21,11 @@ int main()
             if (!strcmp(command, "add paper"))
             {
                 lib.addPaper(command);
-            }
+                lib.printBook(0);
 
+
+            }
+            std::cin.ignore();
             std::cin.getline(command, 1024);
         }
     }

@@ -15,6 +15,7 @@ public:
 
 	void addPaper(char* command);
 	void addBook(std::fstream& stream);
+	void printBook(int libNum);
 
 
 private:
@@ -27,11 +28,15 @@ private:
 	Periodical* periodicals; int pCounter = 0;
 	
 	void openStreams();
+	void resizeBooksArr(size_t newSize);
 
-	short sizeOfBookFile(std::fstream& stream) const;
+	short sizeOfBookFile(std::fstream& stream);
 	short sizeOfComicFile(std::fstream& stream) const;
 	short sizeOfPeriodicalFile(std::fstream& stream) const;
 
-	int   numOfPaper = 1;
+	void setCurrentBookSize(int size);
+	int getCurrentBookSize();
+	int numOfPaper = 1;
+	int currentBookSize;
 };
 

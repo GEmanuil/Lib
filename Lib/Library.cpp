@@ -47,13 +47,38 @@ void Library::openStreams()
     
 }
 
-short Library::sizeOfBookFile(std::fstream& stream) const
+void Library::resizeBooksArr(size_t newSize)
+{
+    Book* books = new Book[newSize];
+    for (int i = 0; i < getCurrentBookSize(); i++)
+    {
+        if (i <= newSize)
+        {
+           books[i] = this->books[i];
+        }
+    }
+
+    delete[] this->books;
+    this->books = new Book[newSize];
+
+    for (int i = 0; i < newSize; i++)
+    {
+        this->books[i] = books[i];
+    }
+    delete[] books;
+
+    setCurrentBookSize(newSize);
+}
+
+short Library::sizeOfBookFile(std::fstream& stream)
 {
     stream.seekg(0, std::ios::end);
-    short size = stream.tellg() / sizeof(Book);
+    int size = stream.tellg() / sizeof(Book);
 
     stream.seekg(0, std::ios::beg);
     stream.clear();
+    
+    setCurrentBookSize(size);
     return size;
 }
 
@@ -77,6 +102,16 @@ short Library::sizeOfPeriodicalFile(std::fstream& stream) const
     return size;
 }
 
+void Library::setCurrentBookSize(int size)
+{
+    this->currentBookSize = size;
+}
+
+int Library::getCurrentBookSize()
+{
+    return currentBookSize;
+}
+
 
 Library::~Library()
 {
@@ -90,6 +125,7 @@ Library::~Library()
 
 void Library::addPaper(char* command)
 {
+    resizeBooksArr(getCurrentBookSize() + 1);
     std::cout << "What do you want to add: \n 1. Book \n 2. Comics \n 3. Periodical \n (enter with letters) \n - ";
     std::cin >> command;
     std::cout << std::endl;
@@ -142,4 +178,14 @@ void Library::addBook(std::fstream& stream)
     stream.write(reinterpret_cast<const char*>(&books[bCounter]), sizeof(Book));
 
     ++bCounter;
+}
+
+void Library::printBook(int libNum)
+{
+    //Book book;
+    //bookStream.seekg(libNum);
+    //bookStream.read(reinterpret_cast<char*>(&book), sizeof(Book));
+
+    std::cout << "Book charachteristics: " << books[0].autor << '\n' << books[0].dateOfIssue << '\n' << books[0].gener << '\n'
+        << books[0].libNumber << '\n' << books[0].publisher << '\n' << books[0].shortDescription << '\n' << books[0].title << '\n';
 }
