@@ -24,21 +24,21 @@ Library::Library()
 
 void Library::openStreams() 
 {
-    bookStream.open("books.bin", std::ios::binary | std::ios::in);
+    bookStream.open("books.bin", std::ios::binary | std::ios::out | std::ios::in | std::ios::ate);
     if (!bookStream.is_open())
     {
         std::cout << "Can't open file books.bin!!!";
         return;
     }
 
-    comicSream.open("comic.bin", std::ios::binary | std::ios::in);
+    comicSream.open("comic.bin", std::ios::binary | std::ios::out);
     if (!comicSream.is_open())
     {
         std::cout << "Can't open file comic.bin!!!";
         return;
     }
 
-    periodicalStream.open("periodical.bin", std::ios::binary | std::ios::in);
+    periodicalStream.open("periodical.bin", std::ios::binary | std::ios::out);
     if (!periodicalStream.is_open())
     {
         std::cout << "Can't open file periodical.bin!!!";
@@ -75,7 +75,7 @@ short Library::sizeOfBookFile(std::fstream& stream)
     stream.seekg(0, std::ios::end);
     int size = stream.tellg() / sizeof(Book);
 
-    stream.seekg(0, std::ios::beg);
+    //stream.seekg(0, std::ios::beg);
     stream.clear();
     
     setCurrentBookSize(size);
@@ -125,6 +125,7 @@ Library::~Library()
 
 void Library::addPaper(char* command)
 {
+
     resizeBooksArr(getCurrentBookSize() + 1);
     std::cout << "What do you want to add: \n 1. Book \n 2. Comics \n 3. Periodical \n (enter with letters) \n - ";
     std::cin >> command;
@@ -156,7 +157,6 @@ void Library::addBook(std::fstream& stream)
     strcpy(books[bCounter].autor, input);
 
     std::cout << "Publisher: ";
-    //std::cin.ignore();
     std::cin.getline(input, 1024);
     strcpy(books[bCounter].publisher, input);
 
@@ -175,8 +175,8 @@ void Library::addBook(std::fstream& stream)
     ++numOfPaper;
 
     stream.seekg(0, std::ios::end);
+    stream.seekp(0, std::ios::end);
     stream.write(reinterpret_cast<const char*>(&books[bCounter]), sizeof(Book));
-
     ++bCounter;
 }
 
