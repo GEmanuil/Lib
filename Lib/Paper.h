@@ -3,7 +3,7 @@ class Paper
 {
 public:
 	char title[1024];
-	long long dateOfIssue;
+	int dateOfIssue;
 	char shortDescription[1024];
 	int libNumber;
 };

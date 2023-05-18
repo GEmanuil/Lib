@@ -16,7 +16,7 @@ public:
 	void addPaper(char* command);
 	void removePaper(char* command);
 
-	void printBook(int libNum);
+	void print();
 	void libSave();
 
 private:
@@ -32,6 +32,8 @@ private:
 	void resizeBooksArr(size_t newSize);
 	void addComics(std::fstream& stream);
 	void resizeComicsArr(size_t newSize);
+	void addPeriodicals(std::fstream& stream);
+	void resizePeriodicalssArr(size_t newSize);
 
 	void openStreams();
 	void loadBooks();
@@ -44,11 +46,13 @@ private:
 	int getCurrentBookSize();
 	void setCurrentComicsSize(int size);
 	int getCurrentComicsSize();
+	void setCurrentPeriodicalSize(int size);
+	int getCurrentPeriodicalSize();
 
 
 	int currentBookSize;
 	int currentComicsSize;
-	int currentPeriodicals;
+	int currentPeriodicalSize;
 
 	int numOfPaper = 0;
 

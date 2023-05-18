@@ -22,12 +22,12 @@ int main()
             if (!strcmp(command, "add paper"))
             {
                 lib.addPaper(command);
-                lib.printBook(0);
             }
             else if (!strcmp(command, "remove paper"))
             {
                 lib.removePaper(command);
             }
+            //mai na tozi ignore ne mu e tuk mestoto
             std::cin.ignore();
             std::cin.getline(command, 1024);
         }

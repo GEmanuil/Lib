@@ -9,11 +9,12 @@ Library::Library()
 {
     openStreams();
     setCurrentBookSize(sizeOfBookFile(bookStream));
-    setCurrentComicsSize(sizeOfComicFile(bookStream));
+    setCurrentComicsSize(sizeOfComicFile(comicSream));
+    setCurrentPeriodicalSize(sizeOfPeriodicalFile(periodicalStream));
 
     books = new Book[getCurrentBookSize()];
-    comics = new Comics[sizeOfComicFile(comicSream)];
-    periodicals = new Periodical[sizeOfPeriodicalFile(periodicalStream)];
+    comics = new Comics[getCurrentComicsSize()];
+    periodicals = new Periodical[getCurrentPeriodicalSize()];
 
     loadBooks();
 }
@@ -62,14 +63,28 @@ void Library::loadBooks()
         bookStream.read(reinterpret_cast<char*>(&this->books[i]), sizeof(Book));
     }
 
-    numOfPaper = getCurrentBookSize();
-    std::cout << "\n couting the authors and titles from obj arr: \n";
-    for (int i = 0; i < getCurrentBookSize(); i++)
+
+    comicSream.seekg(0, std::ios::beg);
+    comicSream.seekp(0, std::ios::beg);
+    std::cout << "\n Loading Comics...\n";
+    for (int i = 0; i < getCurrentComicsSize(); i++)
     {
-        std::cout << "Author: " << this->books[i].autor << '\n';
-        std::cout << "Num:   " << this->books[i].libNumber << '\n';
-        std::cout << "Title: " << this->books[i].title << '\n' << '\n';
+        comicSream.read(reinterpret_cast<char*>(&this->comics[i]), sizeof(Comics));
     }
+
+    periodicalStream.seekg(0, std::ios::beg);
+    periodicalStream.seekp(0, std::ios::beg);
+    std::cout << "\n Loading Periodicals...\n";
+    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        periodicalStream.read(reinterpret_cast<char*>(&this->periodicals[i]), sizeof(Periodical));
+    }
+
+    numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
+
+    std::cout << "Printing beg:: \n";
+    print();
+
 }
 
 void Library::resizeBooksArr(size_t newSize)
@@ -142,6 +157,10 @@ void Library::addComics(std::fstream& stream)
     std::cin >> in;
     comics[getCurrentComicsSize() - 1].quantity = in;
 
+    std::cout << "Year of issue: ";
+    std::cin >> in;
+    comics[getCurrentComicsSize() - 1].dateOfIssue = in;
+
     ++numOfPaper;
     comics[getCurrentComicsSize() - 1].libNumber = numOfPaper;
 
@@ -171,14 +190,87 @@ void Library::resizeComicsArr(size_t newSize)
 
     delete[] comics;
 
-    //std::cout << "\n couting the authors and titles from obj arr: \n";
-    //for (int i = 0; i < getCurrentBookSize(); i++)
-    //{
-    //    std::cout << "Author: " << this->books[i].autor << '\n';
-    //    std::cout << "Title: " << this->books[i].title << '\n';
-    //}
+    std::cout << "\n couting the authors and titles from obj arr: \n";
+    for (int i = 0; i < getCurrentComicsSize(); i++)
+    {
+        std::cout << "Author: " << this->comics[i].autor << '\n';
+        std::cout << "Num:   " << this->comics[i].libNumber << '\n';
+        std::cout << "Title: " << this->comics[i].title << '\n' << '\n';
+    }
 
     setCurrentComicsSize(newSize);
+}
+
+void Library::addPeriodicals(std::fstream& stream)
+{
+    char input[1024];
+    int in;
+    std::cout << "Title: ";
+    std::cin.ignore();
+    std::cin.getline(input, 1024);
+    strcpy(periodicals[getCurrentPeriodicalSize() - 1].title, input);
+
+    std::cout << "Short description about the book: ";
+    std::cin.ignore();
+    std::cin.getline(input, 1024);
+    strcpy(periodicals[getCurrentPeriodicalSize() - 1].shortDescription, input);
+
+
+    std::cout << "Periodicity: \n 1. Every week \n 2. Every month \n 3.Every year \n Enter with charchters (week, month or year) \n";
+
+    while (strcmp(input, "week") && strcmp(input, "year") && strcmp(input, "month"))
+    {
+        std::cin.getline(input, 1024);
+    }
+    strcpy(periodicals[getCurrentPeriodicalSize() - 1].periodicity, input);
+
+
+    std::cout << "Quantity: ";
+    std::cin >> in;
+    periodicals[getCurrentPeriodicalSize() - 1].quantity = in;
+
+
+    std::cout << "Year of issue: ";
+    std::cin >> in;
+    periodicals[getCurrentPeriodicalSize() - 1].dateOfIssue = in;
+
+    ++numOfPaper;
+    periodicals[getCurrentPeriodicalSize() - 1].libNumber = numOfPaper;
+
+    //stream.seekg(0, std::ios::end);
+    //stream.seekp(0, std::ios::end);
+    //stream.write(reinterpret_cast<const char*>(&books[getCurrentPeriodicalSize() - 1]), sizeof(Book));
+}
+
+void Library::resizePeriodicalssArr(size_t newSize)
+{
+    Periodical* periodicals = new Periodical[newSize];
+    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        if (i <= newSize)
+        {
+            periodicals[i] = this->periodicals[i];
+        }
+    }
+
+    delete[] this->periodicals;
+    this->periodicals = new Periodical[newSize];
+
+    for (int i = 0; i < newSize; i++)
+    {
+        this->periodicals[i] = periodicals[i];
+    }
+
+    delete[] periodicals;
+
+    std::cout << "\n couting the authors and titles from obj arr: \n";
+    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
+        std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
+    }
+
+    setCurrentPeriodicalSize(newSize);
 }
 
 void Library::libSave()
@@ -214,6 +306,20 @@ void Library::libSave()
             comicSream.write(reinterpret_cast<const char*>(&comics[i]), sizeof(Comics));
         }
     }
+
+    periodicalStream.close();
+    periodicalStream.open("periodical.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        if (periodicals[i].libNumber != 0)
+        {
+            periodicalStream.write(reinterpret_cast<const char*>(&periodicals[i]), sizeof(Periodical));
+        }
+    }
+
+    std::cout << "Printing end:: \n";
+    print();
 }
 
 short Library::sizeOfBookFile(std::fstream& stream)
@@ -264,6 +370,16 @@ int Library::getCurrentComicsSize()
     return currentComicsSize;
 }
 
+void Library::setCurrentPeriodicalSize(int size)
+{
+    this->currentPeriodicalSize = size;
+}
+
+int Library::getCurrentPeriodicalSize()
+{
+    return currentPeriodicalSize;
+}
+
 
 Library::~Library()
 {
@@ -293,7 +409,8 @@ void Library::addPaper(char* command)
     }
     else if (!strcmp(command, "Periodical"))
     {
-
+        resizePeriodicalssArr(getCurrentPeriodicalSize() + 1);
+        addPeriodicals(periodicalStream);
     }
 }
 
@@ -316,6 +433,27 @@ void Library::removePaper(char* command)
             {
                 //marking it with 0 => it will be ignored when saving the arr to the file
                 this->books[i].libNumber = 0;
+                return;
+            }
+        }
+
+        for (int i = 0; i < getCurrentComicsSize(); i++)
+        {
+            if (comics[i].libNumber == num)
+            {
+                //marking it with 0 => it will be ignored when saving the arr to the file
+                this->comics[i].libNumber = 0;
+                return;
+            }
+        }
+
+        for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+        {
+            if (periodicals[i].libNumber == num)
+            {
+                //marking it with 0 => it will be ignored when saving the arr to the file
+                this->periodicals[i].libNumber = 0;
+                return;
             }
         }
     }
@@ -357,12 +495,28 @@ void Library::addBook(std::fstream& stream)
     
 }
 
-void Library::printBook(int libNum)
+void Library::print()
 {
-    //Book book;
-    //bookStream.seekg(libNum);
-    //bookStream.read(reinterpret_cast<char*>(&book), sizeof(Book));
+    std::cout << "BOOKS: \n";
+    for (int i = 0; i < getCurrentBookSize(); i++)
+    {
+        std::cout << "Author: " << this->books[i].autor << '\n';
+        std::cout << "Num:   " << this->books[i].libNumber << '\n';
+        std::cout << "Title: " << this->books[i].title << '\n' << '\n';
+    }
 
-    std::cout << "Book charachteristics: " << books[0].autor << '\n' << books[0].dateOfIssue << '\n' << books[0].gener << '\n'
-        << books[0].libNumber << '\n' << books[0].publisher << '\n' << books[0].shortDescription << '\n' << books[0].title << '\n';
+    std::cout << "COMICS: \n";
+    for (int i = 0; i < getCurrentComicsSize(); i++)
+    {
+        std::cout << "Author: " << this->comics[i].autor << '\n';
+        std::cout << "Num:   " << this->comics[i].libNumber << '\n';
+        std::cout << "Title: " << this->comics[i].title << '\n' << '\n';
+    }
+
+    std::cout << "PERIODICALS: \n";
+    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
+        std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
+    }
 }
