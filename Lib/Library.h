@@ -4,6 +4,7 @@
 #include "Book.h"
 #include "Comics.h"
 #include "Periodical.h"
+#include "User.h"
 
 class Library
 {
@@ -24,6 +25,7 @@ private:
 	std::fstream comicSream;
 	std::fstream periodicalStream;
 
+	User* users;
 	Book* books;
 	Comics* comics;
 	Periodical* periodicals;

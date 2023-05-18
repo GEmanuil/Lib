@@ -12,6 +12,7 @@ Library::Library()
     setCurrentComicsSize(sizeOfComicFile(comicSream));
     setCurrentPeriodicalSize(sizeOfPeriodicalFile(periodicalStream));
 
+    users = new User[2];
     books = new Book[getCurrentBookSize()];
     comics = new Comics[getCurrentComicsSize()];
     periodicals = new Periodical[getCurrentPeriodicalSize()];
