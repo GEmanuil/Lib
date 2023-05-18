@@ -23,12 +23,15 @@ int main()
             {
                 lib.addPaper(command);
                 lib.printBook(0);
-
-
+            }
+            else if (!strcmp(command, "remove paper"))
+            {
+                lib.removePaper(command);
             }
             std::cin.ignore();
             std::cin.getline(command, 1024);
         }
+        lib.libSave();
     }
 
     else if (!strcmp(command, "close"))

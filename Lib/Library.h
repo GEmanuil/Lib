@@ -14,29 +14,42 @@ public:
 	~Library();
 
 	void addPaper(char* command);
-	void addBook(std::fstream& stream);
-	void printBook(int libNum);
+	void removePaper(char* command);
 
+	void printBook(int libNum);
+	void libSave();
 
 private:
 	std::fstream bookStream;
 	std::fstream comicSream;
 	std::fstream periodicalStream;
 
-	Book* books; int bCounter = 0;
-	Comics* comics; int cCounter = 0;
-	Periodical* periodicals; int pCounter = 0;
-	
-	void openStreams();
+	Book* books;
+	Comics* comics;
+	Periodical* periodicals;
+
+	void addBook(std::fstream& stream);
 	void resizeBooksArr(size_t newSize);
+	void addComics(std::fstream& stream);
+	void resizeComicsArr(size_t newSize);
+
+	void openStreams();
+	void loadBooks();
 
 	short sizeOfBookFile(std::fstream& stream);
-	short sizeOfComicFile(std::fstream& stream) const;
-	short sizeOfPeriodicalFile(std::fstream& stream) const;
+	short sizeOfComicFile(std::fstream& stream);
+	short sizeOfPeriodicalFile(std::fstream& stream);
 
 	void setCurrentBookSize(int size);
 	int getCurrentBookSize();
-	int numOfPaper = 1;
-	int currentBookSize;
-};
+	void setCurrentComicsSize(int size);
+	int getCurrentComicsSize();
 
+
+	int currentBookSize;
+	int currentComicsSize;
+	int currentPeriodicals;
+
+	int numOfPaper = 0;
+
+};
