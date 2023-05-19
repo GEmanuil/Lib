@@ -8,5 +8,3 @@ public:
 	int quantity;
 	int gener;
 };
-
-

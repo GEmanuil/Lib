@@ -16,6 +16,7 @@ public:
 
 	void addPaper(char* command);
 	void removePaper(char* command);
+	void addUser(char* command);
 
 	void print();
 	void libSave();
@@ -24,6 +25,7 @@ private:
 	std::fstream bookStream;
 	std::fstream comicSream;
 	std::fstream periodicalStream;
+	std::fstream userStream;
 
 	User* users;
 	Book* books;
@@ -36,6 +38,8 @@ private:
 	void resizeComicsArr(size_t newSize);
 	void addPeriodicals(std::fstream& stream);
 	void resizePeriodicalssArr(size_t newSize);
+//
+	void resizeUserArr(size_t newSize);//
 
 	void openStreams();
 	void loadBooks();
@@ -50,8 +54,11 @@ private:
 	int getCurrentComicsSize();
 	void setCurrentPeriodicalSize(int size);
 	int getCurrentPeriodicalSize();
+	void setCurrentUserSize(int size);
+	int getCurrentUserSize();
 
 
+	int currentUsersSize;
 	int currentBookSize;
 	int currentComicsSize;
 	int currentPeriodicalSize;

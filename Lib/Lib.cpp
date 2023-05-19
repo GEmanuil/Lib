@@ -27,6 +27,10 @@ int main()
             {
                 lib.removePaper(command);
             }
+            else if (!strcmp(command, "create user"))
+            {
+                lib.addUser(command);
+            }
             //mai na tozi ignore ne mu e tuk mestoto
             std::cin.ignore();
             std::cin.getline(command, 1024);

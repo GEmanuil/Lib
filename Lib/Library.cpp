@@ -12,7 +12,23 @@ Library::Library()
     setCurrentComicsSize(sizeOfComicFile(comicSream));
     setCurrentPeriodicalSize(sizeOfPeriodicalFile(periodicalStream));
 
-    users = new User[2];
+
+
+
+
+
+
+    // TODO  setCurrentUserSize()
+
+
+
+
+
+
+
+
+
+    users = new User[getCurrentUserSize()];
     books = new Book[getCurrentBookSize()];
     comics = new Comics[getCurrentComicsSize()];
     periodicals = new Periodical[getCurrentPeriodicalSize()];
@@ -52,6 +68,13 @@ void Library::openStreams()
         return;
     }
     
+    userStream.open("users.bin", std::ios::binary | std::ios::out | std::ios::in | std::ios::ate);
+    if (!periodicalStream.is_open())
+    {
+        std::cout << "Can't open file users.bin!!!";
+        return;
+    }
+
 }
 
 void Library::loadBooks()
@@ -274,6 +297,48 @@ void Library::resizePeriodicalssArr(size_t newSize)
     setCurrentPeriodicalSize(newSize);
 }
 
+void Library::resizeUserArr(size_t newSize)
+{
+    User* users = new User[newSize];
+    for (int i = 0; i < getCurrentUserSize(); i++)
+    {
+        if (i <= newSize)
+        {
+            users[i] = this->users[i];
+        }
+    }
+
+    delete[] this->users;
+    this->users = new User[newSize];
+
+    for (int i = 0; i < newSize; i++)
+    {
+        this->users[i] = users[i];
+    }
+
+    delete[] users;
+
+    //std::cout << "\n couting the authors and titles from obj arr: \n";
+    //for (int i = 0; i < getCurrentUserSize(); i++)
+    //{
+    //    std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
+    //    std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
+    //}
+
+    setCurrentUserSize(newSize);
+}
+
+void Library::addUser(char* input)
+{
+    std::cout << "Name: ";
+    std::cin.getline(input, 1024);
+
+    resizeUserArr(getCurrentUserSize() + 1);
+    users[getCurrentUserSize() - 1].setName(input);
+}
+
+
+
 void Library::libSave()
 {
 
@@ -318,6 +383,15 @@ void Library::libSave()
             periodicalStream.write(reinterpret_cast<const char*>(&periodicals[i]), sizeof(Periodical));
         }
     }
+
+    userStream.close();
+    userStream.open("users.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+    for (int i = 0; i < getCurrentUserSize(); i++)
+    {
+        userStream.write(reinterpret_cast<const char*>(&users[i]), sizeof(User));
+    }
+
 
     std::cout << "Printing end:: \n";
     print();
@@ -381,12 +455,23 @@ int Library::getCurrentPeriodicalSize()
     return currentPeriodicalSize;
 }
 
+void Library::setCurrentUserSize(int size)
+{
+    this->currentUsersSize = size;
+}
+
+int Library::getCurrentUserSize()
+{
+    return currentUsersSize;
+}
+
 
 Library::~Library()
 {
     bookStream.close();
     comicSream.close();
     periodicalStream.close();
+    
     delete[] books;
     delete[] comics;
     delete[] periodicals;
@@ -519,5 +604,13 @@ void Library::print()
     {
         std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
         std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
+    }
+
+    std::cout << "USERS: \n";
+    char name[128];
+    for (int i = 0; i < getCurrentUserSize(); i++)
+    {
+        this->users[i].getName(name);
+        std::cout << "Name:   " << name << '\n';
     }
 }

@@ -12,10 +12,14 @@ public:
 
 	void setSizeOfBooksInRead(int size);
 	void setSizeOfReadedBooks(int size);
-	void setName(char* name);
+	void setName(char name[128]);
+	void getName(char* name);
 
 	int getSizeOfBooksInRead();
 	int getSizeOfReadedBooks();
+
+	void setBookInRead(Book& book);
+	void setBookReaded(Book& book);
 
 	Book* booksInRead;
 	Book* readedBooks;

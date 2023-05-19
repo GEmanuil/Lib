@@ -37,9 +37,15 @@ void User::setSizeOfReadedBooks(int size)
 	this->sizeOfReadedBooks = size;
 }
 
+
 void User::setName(char name[128])
 {
     strcpy(this->name, name);
+}
+
+void User::getName(char* name)
+{
+    strcpy(name, this->name);
 }
 
 int User::getSizeOfBooksInRead()
@@ -50,6 +56,22 @@ int User::getSizeOfBooksInRead()
 int User::getSizeOfReadedBooks()
 {
 	return sizeOfReadedBooks;
+}
+
+void User::setBookInRead(Book& book)
+{
+    resizeBooksInRead(getSizeOfBooksInRead() + 1);
+    setSizeOfBooksInRead(getSizeOfBooksInRead() + 1);
+
+    booksInRead[getSizeOfBooksInRead() - 1] = book;
+}
+
+void User::setBookReaded(Book& book)
+{
+    resizeReadedBooks(getSizeOfReadedBooks() + 1);
+    setSizeOfReadedBooks(getSizeOfReadedBooks() + 1);
+
+    readedBooks[getSizeOfReadedBooks() - 1] = book;
 }
 
 void User::resizeBooksInRead(int newSize)
