@@ -38,8 +38,7 @@ private:
 	void resizeComicsArr(size_t newSize);
 	void addPeriodicals(std::fstream& stream);
 	void resizePeriodicalssArr(size_t newSize);
-//
-	void resizeUserArr(size_t newSize);//
+	void resizeUserArr(size_t newSize);
 
 	void openStreams();
 	void loadBooks();
@@ -47,6 +46,7 @@ private:
 	short sizeOfBookFile(std::fstream& stream);
 	short sizeOfComicFile(std::fstream& stream);
 	short sizeOfPeriodicalFile(std::fstream& stream);
+	short sizeOfUsersFile(std::fstream& stream);
 
 	void setCurrentBookSize(int size);
 	int getCurrentBookSize();

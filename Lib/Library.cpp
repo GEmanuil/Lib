@@ -11,22 +11,7 @@ Library::Library()
     setCurrentBookSize(sizeOfBookFile(bookStream));
     setCurrentComicsSize(sizeOfComicFile(comicSream));
     setCurrentPeriodicalSize(sizeOfPeriodicalFile(periodicalStream));
-
-
-
-
-
-
-
-    // TODO  setCurrentUserSize()
-
-
-
-
-
-
-
-
+    setCurrentUserSize(sizeOfUsersFile(userStream));
 
     users = new User[getCurrentUserSize()];
     books = new Book[getCurrentBookSize()];
@@ -105,6 +90,14 @@ void Library::loadBooks()
     }
 
     numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
+
+    userStream.seekg(0, std::ios::beg);
+    userStream.seekp(0, std::ios::beg);
+    std::cout << "\n Loading Users...\n";
+    for (int i = 0; i < getCurrentUserSize(); i++)
+    {
+        userStream.read(reinterpret_cast<char*>(&this->users[i]), sizeof(User));
+    }
 
     std::cout << "Printing beg:: \n";
     print();
@@ -420,6 +413,15 @@ short Library::sizeOfPeriodicalFile(std::fstream& stream)
 {
     stream.seekg(0, std::ios::end);
     short size = stream.tellg() / sizeof(Periodical);
+
+    stream.clear();
+    return size;
+}
+
+short Library::sizeOfUsersFile(std::fstream& stream)
+{
+    stream.seekg(0, std::ios::end);
+    short size = stream.tellg() / sizeof(User);
 
     stream.clear();
     return size;
