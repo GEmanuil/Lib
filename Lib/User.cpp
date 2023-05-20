@@ -21,6 +21,59 @@ User::User(char* name)
 	readedBooks = new Book[getSizeOfReadedBooks()];
 }
 
+User::User(const User& other)
+{
+    sizeOfBooksInRead = other.sizeOfBooksInRead;
+    if (sizeOfBooksInRead > 0) {
+        booksInRead = new Book[sizeOfBooksInRead];
+        for (int i = 0; i < sizeOfBooksInRead; ++i) {
+            booksInRead[i] = other.booksInRead[i]; 
+        }
+    }
+
+    sizeOfReadedBooks = other.sizeOfReadedBooks;
+    if (sizeOfReadedBooks > 0) {
+        readedBooks = new Book[sizeOfReadedBooks];
+        for (int i = 0; i < sizeOfReadedBooks; ++i) {
+            readedBooks[i] = other.readedBooks[i];
+        }
+    }
+}
+
+User& User::operator=(const User& other)
+{
+    if (this != &other)
+    {
+        delete[] booksInRead;
+        delete[] readedBooks;
+
+        sizeOfBooksInRead = other.sizeOfBooksInRead;
+        if (sizeOfBooksInRead > 0) {
+            booksInRead = new Book[sizeOfBooksInRead];
+            for (int i = 0; i < sizeOfBooksInRead; ++i) {
+                booksInRead[i] = other.booksInRead[i];
+            }
+        }
+        else
+        {
+            booksInRead = nullptr;
+        }
+
+        sizeOfReadedBooks = other.sizeOfReadedBooks;
+        if (sizeOfReadedBooks > 0) {
+            readedBooks = new Book[sizeOfReadedBooks];
+            for (int i = 0; i < sizeOfReadedBooks; ++i) {
+                readedBooks[i] = other.readedBooks[i];
+            }
+        }
+        else
+        {
+            readedBooks = nullptr;
+        }
+    }
+    return *this;
+}
+
 User::~User()
 {
 	delete[] booksInRead;

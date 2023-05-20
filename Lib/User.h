@@ -8,6 +8,8 @@ class User
 public:
 	User();
 	User(char* name);
+	User(const User& user);
+	User& operator=(const User& other);
 	~User();
 
 	void setSizeOfBooksInRead(int size);
