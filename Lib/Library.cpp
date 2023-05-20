@@ -304,6 +304,9 @@ void Library::resizeUserArr(size_t newSize)
     delete[] this->users;
     this->users = new User[newSize];
 
+
+    //TODO moje bi tuk e problema shtot user nqma operatr= i copy constructor
+
     for (int i = 0; i < newSize; i++)
     {
         this->users[i] = users[i];
@@ -477,6 +480,7 @@ Library::~Library()
     delete[] books;
     delete[] comics;
     delete[] periodicals;
+    delete[] users;
 }
 
 void Library::addPaper(char* command)
