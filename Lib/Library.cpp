@@ -301,6 +301,8 @@ void Library::resizeUserArr(size_t newSize)
         }
     }
 
+
+
     delete[] this->users;
     this->users = new User[newSize];
 
@@ -314,12 +316,13 @@ void Library::resizeUserArr(size_t newSize)
 
     delete[] users;
 
-    //std::cout << "\n couting the authors and titles from obj arr: \n";
-    //for (int i = 0; i < getCurrentUserSize(); i++)
-    //{
-    //    std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
-    //    std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
-    //}
+    std::cout << "\n couting the users: \n";
+    for (int i = 0; i < getCurrentUserSize(); i++)
+    {
+        char name[128];
+        this->users[i].getName(name);
+        std::cout << "Num:   " << name << '\n';
+    }
 
     setCurrentUserSize(newSize);
 }

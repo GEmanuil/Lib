@@ -38,6 +38,8 @@ User::User(const User& other)
             readedBooks[i] = other.readedBooks[i];
         }
     }
+
+    strcpy(name, other.name);
 }
 
 User& User::operator=(const User& other)
@@ -70,6 +72,8 @@ User& User::operator=(const User& other)
         {
             readedBooks = nullptr;
         }
+
+        strcpy(name, other.name);
     }
     return *this;
 }
