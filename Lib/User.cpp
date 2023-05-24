@@ -115,7 +115,7 @@ int User::getSizeOfReadedBooks()
 	return sizeOfReadedBooks;
 }
 
-void User::setBookInRead(Book& book)
+void User::setBookInRead(int libNum)
 {
     resizeBooksInRead(getSizeOfBooksInRead() + 1);
     setSizeOfBooksInRead(getSizeOfBooksInRead() + 1);
@@ -123,7 +123,7 @@ void User::setBookInRead(Book& book)
     booksInRead[getSizeOfBooksInRead() - 1] = book;
 }
 
-void User::setBookReaded(Book& book)
+void User::setBookReaded(int libNum)
 {
     resizeReadedBooks(getSizeOfReadedBooks() + 1);
     setSizeOfReadedBooks(getSizeOfReadedBooks() + 1);

@@ -20,12 +20,12 @@ public:
 	int getSizeOfBooksInRead();
 	int getSizeOfReadedBooks();
 
-	//trqbva da  gi napravq da zaemat samo bibiotechnite nomera
-	void setBookInRead(Book& book);
-	void setBookReaded(Book& book);
+	//TODO trqbva da  gi napravq da zaemat samo bibiotechnite nomera
+	void setBookInRead(int libNum);
+	void setBookReaded(int libNum);
 
-	Book* booksInRead;
-	Book* readedBooks;
+	int* booksInRead;
+	int* readedBooks;
 
 private:
 	char name[128];
