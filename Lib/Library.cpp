@@ -152,8 +152,8 @@ void Library::addComics(std::fstream& stream)
     std::cin.getline(input, 1024);
     strcpy(comics[getCurrentComicsSize() - 1].publisher, input);
 
-    std::cout << "Genere: ";
-    std::cin >> comics[getCurrentComicsSize() - 1].gener;
+    std::cout << "Genre: ";
+    std::cin >> comics[getCurrentComicsSize() - 1].genre;
 
     std::cout << "Short description about the book: ";
     std::cin.ignore();
@@ -570,8 +570,8 @@ void Library::addBook(std::fstream& stream)
     std::cin.getline(input, 1024);
     strcpy(books[getCurrentBookSize() - 1].publisher, input);
 
-    std::cout << "Genere: ";
-    std::cin >> books[getCurrentBookSize() - 1].gener;
+    std::cout << "Genre: ";
+    books[getCurrentBookSize() - 1].setGenre();
 
     std::cout << "Short description about the book: ";
     std::cin.ignore();
@@ -592,7 +592,7 @@ void Library::addBook(std::fstream& stream)
 
 void Library::print()
 {
-    std::cout << "BOOKS: \n";
+    std::cout << "\n \n BOOKS: \n";
     for (int i = 0; i < getCurrentBookSize(); i++)
     {
         std::cout << "Author: " << this->books[i].autor << '\n';

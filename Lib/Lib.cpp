@@ -7,7 +7,6 @@ using namespace std;
 
 int main()
 {
-    //String str;
     char command[1024];
     std::cout << "Enter command: ";
     std::cin >> command;
@@ -31,8 +30,7 @@ int main()
             {
                 lib.addUser(command);
             }
-            //mai na tozi ignore ne mu e tuk mestoto
-            std::cin.ignore();
+
             std::cin.getline(command, 1024);
         }
         lib.libSave();

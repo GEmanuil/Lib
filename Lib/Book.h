@@ -5,6 +5,7 @@ class Book : public Paper
 public:
 	char autor[1024];
 	char publisher[1024];
-	int gener;
+	unsigned short genre;
+	void setGenre();
 };
 
