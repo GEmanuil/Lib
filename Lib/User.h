@@ -20,6 +20,7 @@ public:
 	int getSizeOfBooksInRead();
 	int getSizeOfReadedBooks();
 
+	//trqbva da  gi napravq da zaemat samo bibiotechnite nomera
 	void setBookInRead(Book& book);
 	void setBookReaded(Book& book);
 

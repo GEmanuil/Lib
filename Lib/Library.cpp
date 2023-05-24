@@ -336,6 +336,17 @@ void Library::addUser(char* input)
     users[getCurrentUserSize() - 1].setName(input);
 }
 
+void Library::giveABook(char* command)
+{
+    unsigned int libNum;
+    std::cout << "To: ";
+    std::cin >> command;
+    std::cout << "Library number: ";
+    std::cin >> libNum;
+
+
+}
+
 
 
 void Library::libSave()
@@ -593,11 +604,16 @@ void Library::addBook(std::fstream& stream)
 void Library::print()
 {
     std::cout << "\n \n BOOKS: \n";
+    char ch[16];
+    char ty[16];
+    char au[16];
     for (int i = 0; i < getCurrentBookSize(); i++)
     {
         std::cout << "Author: " << this->books[i].autor << '\n';
         std::cout << "Num:   " << this->books[i].libNumber << '\n';
-        std::cout << "Title: " << this->books[i].title << '\n' << '\n';
+        std::cout << "Short Description: " << this->books[i].shortDescription << '\n';
+        std::cout << "Title: " << this->books[i].title;
+        books[i].getGenre(ch, ty, au);
     }
 
     std::cout << "COMICS: \n";

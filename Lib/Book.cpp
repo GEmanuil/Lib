@@ -1,6 +1,7 @@
 #include "Book.h"
 #include <iostream>
 
+
 void Book::setGenre()
 {
 	unsigned short charcteristic = 0;
@@ -38,4 +39,71 @@ void Book::setGenre()
 	genreCode |= (parityBit << 15); // Set the most significant bit as the parity bit
 
 	genre = genreCode;
+}
+
+void Book::getGenre(char* charact, char* type, char* audience)
+{
+	unsigned short genreCopy = genre;
+
+	unsigned short characteristic = 0;
+	unsigned short gType = 0;
+	unsigned short gAudience = 0;
+
+	characteristic |= (genreCopy & 0x7F);
+	gType |= ((genreCopy >> 7) & 0x0F);
+	gAudience |= ((genreCopy >> 11) & 0x0F);
+	std::cout << "\nGenre:";
+	switch (characteristic)
+	{
+	case 1:
+		std::cout << "\n	- Fiction";
+		break;
+	case 2:
+		std::cout << "\n	- Thriller";
+		break;
+	case 3:
+		std::cout << "\n	- Crime fiction";
+		break;
+	case 4:
+		std::cout << "\n	- Other";
+		break;
+	default:
+		std::cout << "\n	- Genre eror!";
+		break;
+	}
+
+	switch (gType)
+	{
+	case 1:
+		std::cout << "\n	- Poetry";
+		break;
+	case 2:
+		std::cout << "\n	- Prose";
+		break;
+	case 3:
+		std::cout << "\n	- Drama";
+		break;
+	case 4:
+		std::cout << "\n	- Other";
+		break;
+	default:
+		std::cout << "\n	- Genre eror!";
+		break;
+	}
+
+	switch (gAudience)
+	{
+	case 1:
+		std::cout << "\n	- Children\n\n";
+		break;
+	case 2:
+		std::cout << "\n	- Teenangers\n\n";
+		break;
+	case 3:
+		std::cout << "\n	- Adults\n\n";
+		break;
+	default:
+		std::cout << "\n	- Genre eror!\n\n";
+		break;
+	}
 }

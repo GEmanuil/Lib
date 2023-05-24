@@ -30,7 +30,14 @@ int main()
             {
                 lib.addUser(command);
             }
-
+            else if (!strcmp(command, "give"))
+            {
+                lib.giveABook(command);
+            }
+            else if (!strcmp(command, "recive"))
+            {
+                lib.reciveABook(command);
+            }
             std::cin.getline(command, 1024);
         }
         lib.libSave();
