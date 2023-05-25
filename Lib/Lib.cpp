@@ -36,7 +36,11 @@ int main()
             }
             else if (!strcmp(command, "recive"))
             {
-                //lib.reciveABook(command);
+                lib.reciveABook(command);
+            }
+            else if (!strcmp(command, "overdue"))
+            {
+                lib.overduePaper(command);
             }
             std::cin.getline(command, 1024);
         }

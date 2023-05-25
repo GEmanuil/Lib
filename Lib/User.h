@@ -33,6 +33,7 @@ private:
 
 	void resizeBooksInRead(int newSize);
 	void resizeReadedBooks(int newSize);
+	void fixBooksInReadArr(int libNum);
 
 	int sizeOfBooksInRead;
 	int sizeOfReadedBooks;

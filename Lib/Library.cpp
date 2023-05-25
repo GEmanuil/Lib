@@ -404,6 +404,75 @@ void Library::giveABook(char* command)
 
 }
 
+void Library::reciveABook(char* command)
+{
+    unsigned int libNum;
+    std::cout << "From: ";
+    std::cin >> command;
+
+
+    int targetUser = 0;
+    char name[1024];
+    //TODO if username doesnt exist
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        users[i].getName(name);
+        if (!strcmp(name, command))
+        {
+            strcpy(name, command);
+            targetUser = i;
+            break;
+        }
+    }
+
+    std::cout << "Library number: ";
+    std::cin >> libNum;
+
+    users[targetUser].setBookReaded(libNum);
+}
+
+void Library::overduePaper(char* command)
+{
+    unsigned short month;
+    std::cout << "Month: ";
+    std::cin >> month;
+
+    //burkame bazata na vseki user i gledame koi knigi sa zakusneli (na koito currentMonth - 1 > getedMonth)
+
+    //v nai loshiqt sluchai shte sa vzeti vsichki knigi
+    int* overduedPaper = new int[getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize()];
+    size_t overduedPaperIndex = 0;
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        for (size_t j = 0; j < users[i].getSizeOfBooksInRead(); j++)
+        {
+            //ako e knigata e presorochena q zapisvai v overduedPaper[]
+            if (users[i].booksInReadByMonth[j] < month - 1)
+            {
+                //pulni overduedPaper s libNum-ovete koito sa presrocheni
+                overduedPaper[overduedPaperIndex] = users[i].booksInRead[j];
+                ++overduedPaperIndex;
+            }
+        }
+    }
+
+    sortOverduedPaper(overduedPaper, overduedPaperIndex);
+
+    delete[] overduedPaper;
+}
+
+void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size)
+{
+    //trqbva da sortirame vsichki bookove po godina i da gi cout-nem
+    // sled tova da gi izkaram po zaglavie book-ovete
+    //sled tova trqq da sortirame periodicalite i comicsite po quantyty a ako e ednakvo po zaglavie
+
+
+
+    //1. mianavame prez vsichki book-ove i gi sravnqvame sus arrOfLibNumsToSort i tezi koito suvpadat
+
+    //TODO
+}
 
 
 void Library::libSave()

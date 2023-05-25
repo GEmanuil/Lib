@@ -140,7 +140,55 @@ void User::setBookReaded(int libNum)
 {
     resizeReadedBooks(getSizeOfReadedBooks() + 1);
     readedBooks[getSizeOfReadedBooks() - 1] = libNum;
+
+    //func to get out the book which was readed and fix the array
+    fixBooksInReadArr(libNum);
 }
+
+void User::fixBooksInReadArr(int libNum)
+{
+    size_t indexOfArrToRemove = 0;
+
+    for (int i = 0; i < getSizeOfBooksInRead(); i++)
+    {
+        if (booksInRead[i] == libNum)
+        {
+            indexOfArrToRemove = i;
+        }
+    }
+
+    for (int i = indexOfArrToRemove; i < getSizeOfBooksInRead() - 1; i++)
+    {
+        booksInRead[i] = booksInRead[i + 1];
+        booksInReadByMonth[i] = booksInReadByMonth[i + 1];
+    }
+    setSizeOfBooksInRead(getSizeOfBooksInRead() - 1);
+    
+
+
+    int* rBooks = new int[getSizeOfBooksInRead()];
+    short* bInReadByMonth = new short[getSizeOfBooksInRead()];
+
+    for (size_t i = 0; i < getSizeOfBooksInRead(); i++)
+    {
+        rBooks[i] = booksInRead[i];
+        bInReadByMonth[i] = booksInReadByMonth[i];
+    }
+
+    //TODO shallow copy
+    delete[] booksInRead;
+    delete[] booksInReadByMonth;
+
+    for (size_t i = 0; i < getSizeOfBooksInRead(); i++)
+    {
+        booksInRead[i] = rBooks[i];
+        booksInReadByMonth[i] = bInReadByMonth[i];
+    }
+
+    delete[] rBooks;
+    delete[] bInReadByMonth;
+}
+
 
 void User::resizeBooksInRead(int newSize)
 {
