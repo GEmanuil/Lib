@@ -46,7 +46,8 @@ private:
 	void openStreams();
 	void loadBooks();
 	void sortOverduedPaper(int* arrOfLibNumsToSort, size_t size);
-	//void getTypeOfPaperFromNum(unsigned int libNum, char* type);
+	void getTypeOfPaperFromNum(unsigned int libNum, char* type);
+	bool libNumExistInArr(int* arr, int size, int num);
 
 	short sizeOfBookFile(std::fstream& stream);
 	short sizeOfComicFile(std::fstream& stream);

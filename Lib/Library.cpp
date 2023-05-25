@@ -104,40 +104,40 @@ void Library::loadBooks()
 
 }
 
-//void Library::getTypeOfPaperFromNum(unsigned int libNum, char* type)
-//{
-//
-//    for (size_t i = 0; i < getCurrentBookSize() && i < getCurrentComicsSize() && i < getCurrentPeriodicalSize(); i++)
-//    {
-//        if (i <= getCurrentBookSize())
-//        {
-//            if (libNum == books[i].libNumber)
-//            {
-//                strcpy(type, "book");
-//                return;
-//            }
-//        }
-//
-//        if (i <= getCurrentComicsSize())
-//        {
-//            if (libNum == comics[i].libNumber)
-//            {
-//                strcpy(type, "comics");
-//                return;
-//            }
-//        }
-//
-//        if (i <= getCurrentPeriodicalSize())
-//        {
-//            if (libNum == periodicals[i].libNumber)
-//            {
-//                strcpy(type, "periodicals");
-//                return;
-//            }
-//        }
-//    }
-//    std::cout << "Error number!!!";
-//}
+void Library::getTypeOfPaperFromNum(unsigned int libNum, char* type)
+{
+
+    for (size_t i = 0; i < getCurrentBookSize() && i < getCurrentComicsSize() && i < getCurrentPeriodicalSize(); i++)
+    {
+        if (i <= getCurrentBookSize())
+        {
+            if (libNum == books[i].libNumber)
+            {
+                strcpy(type, "book");
+                return;
+            }
+        }
+
+        if (i <= getCurrentComicsSize())
+        {
+            if (libNum == comics[i].libNumber)
+            {
+                strcpy(type, "comics");
+                return;
+            }
+        }
+
+        if (i <= getCurrentPeriodicalSize())
+        {
+            if (libNum == periodicals[i].libNumber)
+            {
+                strcpy(type, "periodicals");
+                return;
+            }
+        }
+    }
+    std::cout << "Error number!!!";
+}
 
 void Library::resizeBooksArr(size_t newSize)
 {
@@ -471,9 +471,43 @@ void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size)
 
     //1. mianavame prez vsichki book-ove i gi sravnqvame sus arrOfLibNumsToSort i tezi koito suvpadat
 
-    //TODO
+    //TODO 1. ako libNuma e kniga 2. i ako e nai malkata 3. q pisha
+
+    int newest = 0;
+    int indexOFsorterdArr = 0;
+    char type[16];
+    int* sortedArr = new int[getCurrentBookSize()];
+    for (size_t i = 0; i < size; i++)
+    {
+        for (int j = 0; j < getCurrentBookSize(); j++)
+        {
+            getTypeOfPaperFromNum(arrOfLibNumsToSort[i], type);
+            if (!strcmp("book", type) && !libNumExistInArr(sortedArr, indexOFsorterdArr, arrOfLibNumsToSort[i]))
+            {
+                newest = arrOfLibNumsToSort[i];
+            }
+        }
+
+        sortedArr[indexOFsorterdArr] = newest;
+        ++indexOFsorterdArr;
+    }
+
+    //TODO arr to not be LOCAL!!!!!!!
+
+    delete[] sortedArr;
 }
 
+bool Library::libNumExistInArr(int* arr, int size, int num)
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        if (arr[i] == num)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 void Library::libSave()
 {
