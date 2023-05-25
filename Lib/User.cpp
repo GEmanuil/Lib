@@ -2,13 +2,16 @@
 
 User::User()
 {
+    //char name[16] = "none";
+    //setName(name);
+
 	setSizeOfReadedBooks(0);
 	setSizeOfBooksInRead(0);
-	booksInRead = new Book[getSizeOfBooksInRead()];
-	readedBooks = new Book[getSizeOfReadedBooks()];
+	booksInRead = new int[getSizeOfBooksInRead()];
+    booksInReadByMonth = new short[getSizeOfBooksInRead()];
 
-    char name[16] = "none";
-    setName(name);
+	readedBooks = new int[getSizeOfReadedBooks()];
+
 }
 
 User::User(char* name)
@@ -17,23 +20,28 @@ User::User(char* name)
 
 	setSizeOfReadedBooks(0);
 	setSizeOfBooksInRead(0);
-	booksInRead = new Book[getSizeOfBooksInRead()];
-	readedBooks = new Book[getSizeOfReadedBooks()];
+	booksInRead = new int [getSizeOfBooksInRead()];
+    booksInReadByMonth = new short[getSizeOfBooksInRead()];
+
+	readedBooks = new int[getSizeOfReadedBooks()];
 }
 
+//TODO cctor
 User::User(const User& other)
 {
     sizeOfBooksInRead = other.sizeOfBooksInRead;
     if (sizeOfBooksInRead > 0) {
-        booksInRead = new Book[sizeOfBooksInRead];
+        booksInRead = new int[sizeOfBooksInRead];
+        booksInReadByMonth = new short[sizeOfBooksInRead];
         for (int i = 0; i < sizeOfBooksInRead; ++i) {
             booksInRead[i] = other.booksInRead[i]; 
+            booksInReadByMonth[i] = other.booksInReadByMonth[i];
         }
     }
 
     sizeOfReadedBooks = other.sizeOfReadedBooks;
     if (sizeOfReadedBooks > 0) {
-        readedBooks = new Book[sizeOfReadedBooks];
+        readedBooks = new int[sizeOfReadedBooks];
         for (int i = 0; i < sizeOfReadedBooks; ++i) {
             readedBooks[i] = other.readedBooks[i];
         }
@@ -48,22 +56,26 @@ User& User::operator=(const User& other)
     {
         delete[] booksInRead;
         delete[] readedBooks;
+        delete[] booksInReadByMonth;
 
         sizeOfBooksInRead = other.sizeOfBooksInRead;
         if (sizeOfBooksInRead > 0) {
-            booksInRead = new Book[sizeOfBooksInRead];
+            booksInRead = new int[sizeOfBooksInRead];
+            booksInReadByMonth = new short[sizeOfBooksInRead];
             for (int i = 0; i < sizeOfBooksInRead; ++i) {
                 booksInRead[i] = other.booksInRead[i];
+                booksInReadByMonth[i] = other.booksInReadByMonth[i];
             }
         }
         else
         {
             booksInRead = nullptr;
+            booksInReadByMonth = nullptr;
         }
 
         sizeOfReadedBooks = other.sizeOfReadedBooks;
         if (sizeOfReadedBooks > 0) {
-            readedBooks = new Book[sizeOfReadedBooks];
+            readedBooks = new int[sizeOfReadedBooks];
             for (int i = 0; i < sizeOfReadedBooks; ++i) {
                 readedBooks[i] = other.readedBooks[i];
             }
@@ -82,6 +94,7 @@ User::~User()
 {
 	delete[] booksInRead;
 	delete[] readedBooks;
+    delete[] booksInReadByMonth;
 }
 
 void User::setSizeOfBooksInRead(int size)
@@ -115,49 +128,53 @@ int User::getSizeOfReadedBooks()
 	return sizeOfReadedBooks;
 }
 
-void User::setBookInRead(int libNum)
+void User::setBookInRead(int libNum, short month)
 {
     resizeBooksInRead(getSizeOfBooksInRead() + 1);
-    setSizeOfBooksInRead(getSizeOfBooksInRead() + 1);
 
-    booksInRead[getSizeOfBooksInRead() - 1] = book;
+    booksInRead[getSizeOfBooksInRead() - 1] = libNum;
+    booksInReadByMonth[getSizeOfBooksInRead() - 1] = month;
 }
 
 void User::setBookReaded(int libNum)
 {
     resizeReadedBooks(getSizeOfReadedBooks() + 1);
-    setSizeOfReadedBooks(getSizeOfReadedBooks() + 1);
-
-    readedBooks[getSizeOfReadedBooks() - 1] = book;
+    readedBooks[getSizeOfReadedBooks() - 1] = libNum;
 }
 
 void User::resizeBooksInRead(int newSize)
 {
-    Book* books = new Book[newSize];
+    int* books = new int[newSize];
+    short* booksInReadByMonth = new short[newSize];
     for (int i = 0; i < getSizeOfBooksInRead(); i++)
     {
         if (i <= newSize)
         {
             books[i] = this->booksInRead[i];
+            booksInReadByMonth[i] = this->booksInReadByMonth[i];
         }
     }
 
     delete[] this->booksInRead;
-    this->booksInRead = new Book[newSize];
+    delete[] this->booksInReadByMonth;
+    this->booksInRead = new int[newSize];
+    this->booksInReadByMonth = new short[newSize];
 
     for (int i = 0; i < newSize; i++)
     {
         this->booksInRead[i] = books[i];
+        this->booksInReadByMonth[i] = booksInReadByMonth[i];
     }
 
     delete[] books;
+    delete[] booksInReadByMonth;
 
     setSizeOfBooksInRead(newSize);
 }
 
 void User::resizeReadedBooks(int newSize)
 {
-    Book* books = new Book[newSize];
+    int* books = new int[newSize];
     for (int i = 0; i < getSizeOfReadedBooks(); i++)
     {
         if (i <= newSize)
@@ -167,7 +184,7 @@ void User::resizeReadedBooks(int newSize)
     }
 
     delete[] this->readedBooks;
-    this->readedBooks = new Book[newSize];
+    this->readedBooks = new int[newSize];
 
     for (int i = 0; i < newSize; i++)
     {

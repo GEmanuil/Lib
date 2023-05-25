@@ -104,6 +104,41 @@ void Library::loadBooks()
 
 }
 
+//void Library::getTypeOfPaperFromNum(unsigned int libNum, char* type)
+//{
+//
+//    for (size_t i = 0; i < getCurrentBookSize() && i < getCurrentComicsSize() && i < getCurrentPeriodicalSize(); i++)
+//    {
+//        if (i <= getCurrentBookSize())
+//        {
+//            if (libNum == books[i].libNumber)
+//            {
+//                strcpy(type, "book");
+//                return;
+//            }
+//        }
+//
+//        if (i <= getCurrentComicsSize())
+//        {
+//            if (libNum == comics[i].libNumber)
+//            {
+//                strcpy(type, "comics");
+//                return;
+//            }
+//        }
+//
+//        if (i <= getCurrentPeriodicalSize())
+//        {
+//            if (libNum == periodicals[i].libNumber)
+//            {
+//                strcpy(type, "periodicals");
+//                return;
+//            }
+//        }
+//    }
+//    std::cout << "Error number!!!";
+//}
+
 void Library::resizeBooksArr(size_t newSize)
 {
     Book* books = new Book[newSize];
@@ -339,11 +374,33 @@ void Library::addUser(char* input)
 void Library::giveABook(char* command)
 {
     unsigned int libNum;
+    unsigned short month;
     std::cout << "To: ";
     std::cin >> command;
+   
+
+    int targetUser = 0;
+    char name[1024];
+    //TODO if username doesnt exist
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        users[i].getName(name);
+        if (!strcmp(name, command))
+        {
+            strcpy(name, command);
+            targetUser = i;
+            break;
+        }
+    }
+
+    std::cout << "In which month the book was taken? :\n month number - ";
+    std::cin >> month;
     std::cout << "Library number: ";
     std::cin >> libNum;
+    
+    users[targetUser].setBookInRead(libNum, month);
 
+    //getTypeOfPaperFromNum(libNum, typeOfPaper);
 
 }
 

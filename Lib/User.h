@@ -21,9 +21,10 @@ public:
 	int getSizeOfReadedBooks();
 
 	//TODO trqbva da  gi napravq da zaemat samo bibiotechnite nomera
-	void setBookInRead(int libNum);
+	void setBookInRead(int libNum, short month);
 	void setBookReaded(int libNum);
 
+	short* booksInReadByMonth;
 	int* booksInRead;
 	int* readedBooks;
 

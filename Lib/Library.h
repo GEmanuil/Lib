@@ -18,7 +18,7 @@ public:
 	void removePaper(char* command);
 	void addUser(char* command);
 	void giveABook(char* command);
-	void reciveABook(char* command);
+	//void reciveABook(char* command);
 
 	void print();
 	void libSave();
@@ -44,6 +44,7 @@ private:
 
 	void openStreams();
 	void loadBooks();
+	void getTypeOfPaperFromNum(unsigned int libNum, char* type);
 
 	short sizeOfBookFile(std::fstream& stream);
 	short sizeOfComicFile(std::fstream& stream);

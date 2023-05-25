@@ -36,7 +36,7 @@ int main()
             }
             else if (!strcmp(command, "recive"))
             {
-                lib.reciveABook(command);
+                //lib.reciveABook(command);
             }
             std::cin.getline(command, 1024);
         }
