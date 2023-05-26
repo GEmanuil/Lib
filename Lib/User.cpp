@@ -46,7 +46,7 @@ User::User(const User& other)
             readedBooks[i] = other.readedBooks[i];
         }
     }
-
+    
     strcpy(name, other.name);
 }
 

@@ -91,6 +91,12 @@ void Library::loadBooks()
 
     numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
 
+    print();
+
+}
+
+void Library::loadUsers()
+{
     userStream.seekg(0, std::ios::beg);
     userStream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Users...\n";
@@ -100,8 +106,6 @@ void Library::loadBooks()
     }
 
     std::cout << "Printing beg:: \n";
-    print();
-
 }
 
 void Library::getTypeOfPaperFromNum(unsigned int libNum, char* type)
