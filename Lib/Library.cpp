@@ -455,13 +455,22 @@ void Library::overduePaper(char* command)
             }
         }
     }
+    int* sortedArr = new int[getCurrentBookSize()];
+    sortOverduedPaper(overduedPaper, overduedPaperIndex, sortedArr);
 
-    sortOverduedPaper(overduedPaper, overduedPaperIndex);
 
+    //printeing sorted Book by their year
+
+    for (size_t i = 0; i < overduedPaperIndex; i++)
+    {
+        printBookWithLibNum(sortedArr[i]);
+    }
+
+    delete[] sortedArr;
     delete[] overduedPaper;
 }
 
-void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size)
+void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr)
 {
     //trqbva da sortirame vsichki bookove po godina i da gi cout-nem
     // sled tova da gi izkaram po zaglavie book-ovete
@@ -476,15 +485,14 @@ void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size)
     int newest = 0;
     int indexOFsorterdArr = 0;
     char type[16];
-    int* sortedArr = new int[getCurrentBookSize()];
     for (size_t i = 0; i < size; i++)
     {
         for (int j = 0; j < getCurrentBookSize(); j++)
         {
-            getTypeOfPaperFromNum(arrOfLibNumsToSort[i], type);
-            if (!strcmp("book", type) && !libNumExistInArr(sortedArr, indexOFsorterdArr, arrOfLibNumsToSort[i]))
+            getTypeOfPaperFromNum(arrOfLibNumsToSort[j], type);
+            if (!strcmp("book", type) && !libNumExistInArr(sortedArr, indexOFsorterdArr, arrOfLibNumsToSort[j]) && newest <= arrOfLibNumsToSort[j])
             {
-                newest = arrOfLibNumsToSort[i];
+                newest = arrOfLibNumsToSort[j];
             }
         }
 
@@ -492,9 +500,6 @@ void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size)
         ++indexOFsorterdArr;
     }
 
-    //TODO arr to not be LOCAL!!!!!!!
-
-    delete[] sortedArr;
 }
 
 bool Library::libNumExistInArr(int* arr, int size, int num)
@@ -798,4 +803,18 @@ void Library::print()
         this->users[i].getName(name);
         std::cout << "Name:   " << name << '\n';
     }
+}
+
+void Library::printBookWithLibNum(int libNum)
+{
+    for (size_t i = 0; i < getCurrentBookSize(); i++)
+    {
+        if (libNum == books->libNumber)
+        {
+            std::cout << '\n' << books[i].title << '\n';
+            std::cout << '\n' << books[i].autor<< '\n';
+            std::cout << "\n YEAR : " << books[i].title << '\n';
+        }
+    }
+    std::cout << "\n Book with libNum: " << libNum << " NOT FOUND!!!";
 }

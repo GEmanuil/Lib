@@ -22,6 +22,7 @@ public:
 	void overduePaper(char* command);
 
 	void print();
+	void printBookWithLibNum(int libNum);
 	void libSave();
 
 private:
@@ -45,7 +46,7 @@ private:
 
 	void openStreams();
 	void loadBooks();
-	void sortOverduedPaper(int* arrOfLibNumsToSort, size_t size);
+	void sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr);
 	void getTypeOfPaperFromNum(unsigned int libNum, char* type);
 	bool libNumExistInArr(int* arr, int size, int num);
 
