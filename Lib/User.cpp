@@ -63,6 +63,7 @@ User& User::operator=(const User& other)
             booksInRead = new int[sizeOfBooksInRead];
             booksInReadByMonth = new short[sizeOfBooksInRead];
             for (int i = 0; i < sizeOfBooksInRead; ++i) {
+                //tuk gurmi sled kato sum dobavil kniga koqto se chete
                 booksInRead[i] = other.booksInRead[i];
                 booksInReadByMonth[i] = other.booksInReadByMonth[i];
             }
@@ -196,7 +197,7 @@ void User::resizeBooksInRead(int newSize)
     short* booksInReadByMonth = new short[newSize];
     for (int i = 0; i < getSizeOfBooksInRead(); i++)
     {
-        if (i <= newSize)
+        if (i < newSize)
         {
             books[i] = this->booksInRead[i];
             booksInReadByMonth[i] = this->booksInReadByMonth[i];
@@ -208,7 +209,8 @@ void User::resizeBooksInRead(int newSize)
     this->booksInRead = new int[newSize];
     this->booksInReadByMonth = new short[newSize];
 
-    for (int i = 0; i < newSize; i++)
+    //from newSize to getSizeOfBooksInRead()
+    for (int i = 0; i < getSizeOfBooksInRead(); i++)
     {
         this->booksInRead[i] = books[i];
         this->booksInReadByMonth[i] = booksInReadByMonth[i];
