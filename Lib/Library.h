@@ -46,7 +46,7 @@ private:
 
 	void openStreams();
 	void loadBooks();
-	void loadUsers();
+	void saveUsers();
 	void sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr);
 	void getTypeOfPaperFromNum(unsigned int libNum, char* type);
 	bool libNumExistInArr(int* arr, int size, int num);

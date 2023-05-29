@@ -91,21 +91,17 @@ void Library::loadBooks()
 
     numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
 
-    print();
-
-}
-
-void Library::loadUsers()
-{
     userStream.seekg(0, std::ios::beg);
     userStream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Users...\n";
     for (int i = 0; i < getCurrentUserSize(); i++)
     {
         userStream.read(reinterpret_cast<char*>(&this->users[i]), sizeof(User));
+        users[i].loadBooks(i);
     }
 
-    std::cout << "Printing beg:: \n";
+    print();
+
 }
 
 void Library::getTypeOfPaperFromNum(unsigned int libNum, char* type)
@@ -402,6 +398,8 @@ void Library::giveABook(char* command)
     std::cout << "Library number: ";
     std::cin >> libNum;
     
+    
+    users[targetUser].printBooksInRead();
     users[targetUser].setBookInRead(libNum, month);
 
     //getTypeOfPaperFromNum(libNum, typeOfPaper);
@@ -568,9 +566,10 @@ void Library::libSave()
 
     for (int i = 0; i < getCurrentUserSize(); i++)
     {
+        users[i].saveBooks(i);
         userStream.write(reinterpret_cast<const char*>(&users[i]), sizeof(User));
     }
-
+    
 
     std::cout << "Printing end:: \n";
     print();

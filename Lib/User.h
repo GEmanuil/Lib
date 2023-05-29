@@ -1,6 +1,7 @@
 #pragma once
 #include "Book.h"
 #include <iostream>
+#include <fstream>
 #pragma warning(disable:4996)
 
 class User
@@ -15,17 +16,21 @@ public:
 	void setSizeOfBooksInRead(int size);
 	void setSizeOfReadedBooks(int size);
 	void setName(char name[128]);
-	void getName(char* name);
+	void setBookInRead(int libNum, short month);
+	void setBookReaded(int libNum);
 
+	void getName(char* name);
 	int getSizeOfBooksInRead();
 	int getSizeOfReadedBooks();
 
-	void setBookInRead(int libNum, short month);
-	void setBookReaded(int libNum);
+	void saveBooks(int index);
+	void loadBooks(int index);
 
 	short* booksInReadByMonth;
 	int* booksInRead;
 	int* readedBooks;
+
+	void printBooksInRead();
 
 private:
 	char name[128];
