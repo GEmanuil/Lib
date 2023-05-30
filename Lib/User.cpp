@@ -8,7 +8,7 @@ User::User()
 	setSizeOfReadedBooks(0);
 	setSizeOfBooksInRead(0);
 	booksInRead = new int[getSizeOfBooksInRead()];
-    booksInReadByMonth = new short[getSizeOfBooksInRead()];
+    booksInReadByMonth = new int[getSizeOfBooksInRead()];
 
 	readedBooks = new int[getSizeOfReadedBooks()];
 
@@ -21,7 +21,7 @@ User::User(char* name)
 	setSizeOfReadedBooks(0);
 	setSizeOfBooksInRead(0);
 	booksInRead = new int [getSizeOfBooksInRead()];
-    booksInReadByMonth = new short[getSizeOfBooksInRead()];
+    booksInReadByMonth = new int[getSizeOfBooksInRead()];
 
 	readedBooks = new int[getSizeOfReadedBooks()];
 }
@@ -32,7 +32,7 @@ User::User(const User& other)
     sizeOfBooksInRead = other.sizeOfBooksInRead;
     if (sizeOfBooksInRead > 0) {
         booksInRead = new int[sizeOfBooksInRead];
-        booksInReadByMonth = new short[sizeOfBooksInRead];
+        booksInReadByMonth = new int[sizeOfBooksInRead];
         for (int i = 0; i < sizeOfBooksInRead; ++i) {
             booksInRead[i] = other.booksInRead[i]; 
             booksInReadByMonth[i] = other.booksInReadByMonth[i];
@@ -61,7 +61,7 @@ User& User::operator=(const User& other)
         sizeOfBooksInRead = other.sizeOfBooksInRead;
         if (sizeOfBooksInRead > 0) {
             booksInRead = new int[sizeOfBooksInRead];
-            booksInReadByMonth = new short[sizeOfBooksInRead];
+            booksInReadByMonth = new int[sizeOfBooksInRead];
             for (int i = 0; i < sizeOfBooksInRead; ++i) {
                 //tuk gurmi sled kato sum dobavil kniga koqto se chete
                 booksInRead[i] = other.booksInRead[i];
@@ -150,24 +150,26 @@ void User::saveBooks(int index)
     stream.write(reinterpret_cast<const char*>(&size), sizeof(int));
     for (int i = 0; i < size; i++)
     {
-        stream.write(reinterpret_cast<const char*>(&booksInRead[i]), sizeof(int));
-    }
-
-    //sushtoto s booksInReadByMonth trqbva da TODO getrs i seters na SizeOfBooksInRead
-    stream.open("booksInReadByMonth", std::ios::binary);
-    if (!stream.is_open())
-    {
-        std::cout << "Cant open file!!\n";
-    }
-    stream.seekp(0, std::ios::end);
-
-    stream.write(reinterpret_cast<const char*>(&size), sizeof(int));
-    for (int i = 0; i < size; i++)
-    {
-        stream.write(reinterpret_cast<const char*>(&booksInReadByMonth[i]), sizeof(short));
+        stream.write(reinterpret_cast<const char*>(&this->booksInRead[i]), sizeof(int));
     }
 
     stream.close();
+
+    //sushtoto s booksInReadByMonth trqbva da TODO getrs i seters na SizeOfBooksInRead
+    std::ofstream stream1("booksInReadByMonth.bin", std::ios::binary);
+    if (!stream1.is_open())
+    {
+        std::cout << "Cant open file!!\n";
+    }
+    stream1.seekp(0, std::ios::end);
+
+    stream1.write(reinterpret_cast<const char*>(&size), sizeof(int));
+    for (int i = 0; i < size; i++)
+    {
+        stream1.write(reinterpret_cast<const char*>(&this->booksInReadByMonth[i]), sizeof(int));
+    }
+
+    stream1.close();
 }
 
 void User::loadBooks(int index)
@@ -199,18 +201,41 @@ void User::loadBooks(int index)
 
     for (size_t i = 0; i < size; i++)
     {
-
-        // GURMI NESHTO MAI SHTOT NE E INICIALIZIRAN ARRAY-A
-
-
-
         stream.read(reinterpret_cast<char*>(&this->booksInRead[i]), sizeof(int));
-
-
         setSizeOfBooksInRead(i + 1);
     }
 
     stream.close();
+
+    //sushtoto no za booksInReadByMonth
+    std::ifstream stream1("booksInReadByMonth.bin", std::ios::binary);
+
+    if (!stream1.is_open())
+    {
+        std::cout << "Cant open file!!\n";
+    }
+
+    //pochvame 
+    stream1.seekg(0, std::ios::beg);
+
+    //chetem do kato ne stignem do index-a (masiva ot knigi za tozi user)
+    for (size_t i = 0; i < index; i++)
+    {
+        stream1.read(reinterpret_cast<char*>(&size), sizeof(int));
+        //int pointerToGo = sizeof(int) * size;
+        stream1.seekg(sizeof(int) * size, std::ios::beg);
+    }
+
+    //stigaiki zapochvame da chetem
+    stream1.read(reinterpret_cast<char*>(&size), sizeof(int));
+    booksInReadByMonth = new int[size];
+
+    for (size_t i = 0; i < size; i++)
+    {
+        stream1.read(reinterpret_cast<char*>(&this->booksInReadByMonth[i]), sizeof(int));
+    }
+
+    stream1.close();
 }
 
 void User::setBookInRead(int libNum, short month)
@@ -252,7 +277,7 @@ void User::fixBooksInReadArr(int libNum)
 
 
     int* rBooks = new int[getSizeOfBooksInRead()];
-    short* bInReadByMonth = new short[getSizeOfBooksInRead()];
+    int* bInReadByMonth = new int[getSizeOfBooksInRead()];
 
     for (size_t i = 0; i < getSizeOfBooksInRead(); i++)
     {
@@ -289,7 +314,7 @@ void User::printBooksInRead()
 void User::resizeBooksInRead(int newSize)
 {
     int* books = new int[newSize];
-    short* booksInReadByMonth = new short[newSize];
+    int* booksInReadByMonth = new int[newSize];
     for (int i = 0; i < getSizeOfBooksInRead(); i++)
     {
         if (i < newSize)
@@ -302,7 +327,7 @@ void User::resizeBooksInRead(int newSize)
     delete[] this->booksInRead;
     delete[] this->booksInReadByMonth;
     this->booksInRead = new int[newSize];
-    this->booksInReadByMonth = new short[newSize];
+    this->booksInReadByMonth = new int[newSize];
 
     //from newSize to getSizeOfBooksInRead()
     for (int i = 0; i < getSizeOfBooksInRead(); i++)

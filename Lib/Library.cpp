@@ -398,6 +398,7 @@ void Library::giveABook(char* command)
     std::cout << "Library number: ";
     std::cin >> libNum;
     
+    //TODO if such paper exists than is it a book or a comic ..
     
     users[targetUser].printBooksInRead();
     users[targetUser].setBookInRead(libNum, month);

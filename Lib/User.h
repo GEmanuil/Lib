@@ -26,7 +26,7 @@ public:
 	void saveBooks(int index);
 	void loadBooks(int index);
 
-	short* booksInReadByMonth;
+	int* booksInReadByMonth;
 	int* booksInRead;
 	int* readedBooks;
 
