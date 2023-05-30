@@ -25,6 +25,9 @@ public:
 	void printBookWithLibNum(int libNum);
 	void libSave();
 
+	//temp func
+	void checkWhatIsInReadedBooksFIle();
+
 private:
 	std::fstream bookStream;
 	std::fstream comicSream;

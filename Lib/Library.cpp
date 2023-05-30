@@ -19,6 +19,10 @@ Library::Library()
     periodicals = new Periodical[getCurrentPeriodicalSize()];
 
     loadBooks();
+
+
+    //checking what is in the FILE !!!
+    checkWhatIsInReadedBooksFIle();
 }
 
 //Library::Library(const Library& lib)
@@ -588,9 +592,38 @@ void Library::libSave()
 
     }
     
+    //checking what is in FILE !!!
+    checkWhatIsInReadedBooksFIle();
 
     std::cout << "Printing end:: \n";
     print();
+}
+
+void Library::checkWhatIsInReadedBooksFIle()
+{
+
+    std::ifstream stream("readedBooks.bin", std::ios::binary);
+    if (!stream.is_open())
+    {
+        std::cout << "Cant open file!!!";
+    }
+
+    int size = 0;
+    int var = 0;
+    stream.seekg(0, std::ios::beg);
+
+    while (stream.read(reinterpret_cast<char*>(&size), sizeof(int)))
+    {
+        std::cout << "Size of User: " << size << std::endl;
+
+        for (size_t i = 0; i < size; i++)
+        {
+            stream.read(reinterpret_cast<char*>(&var), sizeof(int));
+            std::cout << "read book: " << var << std::endl;
+
+        }
+    }
+    stream.close();
 }
 
 short Library::sizeOfBookFile(std::fstream& stream)

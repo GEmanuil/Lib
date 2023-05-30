@@ -148,7 +148,7 @@ void User::saveBooks(int index)
     int size = 5;
 
     stream.seekg((index) * (sizeof(int)*(5 + 1) /*5 za danni 1 za size*/), std::ios::beg);
-    stream.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
+    //stream.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
 
 
     size = getSizeOfBooksInRead();
@@ -173,7 +173,7 @@ void User::saveBooks(int index)
 
 
     stream1.seekg((index) * (sizeof(int) * (5 + 1) /*5 za danni 1 za size*/), std::ios::beg);
-    stream1.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
+    //stream1.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
 
     size = getSizeOfBooksInRead();
 
@@ -198,12 +198,12 @@ void User::saveBooks(int index)
     //readedBooksStream.seekp(0, std::ios::end);
 
     //tova
-    readedBooksStream.seekp(0, std::ios::beg);
+    //readedBooksStream.seekp(0, std::ios::beg);
     readedBooksStream.seekg(0, std::ios::beg);
     for (size_t i = 0; i < index; i++)
     {
         readedBooksStream.read(reinterpret_cast<char*>(&size), sizeof(int));
-        readedBooksStream.seekp(size * sizeof(int), std::ios::cur);
+        //readedBooksStream.seekp(size * sizeof(int), std::ios::cur);
         readedBooksStream.seekg(size * sizeof(int), std::ios::cur);
     }
 
