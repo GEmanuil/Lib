@@ -188,13 +188,25 @@ void User::saveBooks(int index)
 
 
     //almost same for readedBooks
-    std::ofstream readedBooksStream("readedBooks.bin", std::ios::binary);
+    std::fstream readedBooksStream("readedBooks.bin", std::ios::binary | std::ios::in | std::ios::out);
     if (!readedBooksStream.is_open())
     {
         std::cout << "Cant open file!!\n";
     }
 
-    readedBooksStream.seekp(0, std::ios::end);
+    //vmesto tva da vidim
+    //readedBooksStream.seekp(0, std::ios::end);
+
+    //tova
+    readedBooksStream.seekp(0, std::ios::beg);
+    readedBooksStream.seekg(0, std::ios::beg);
+    for (size_t i = 0; i < index; i++)
+    {
+        readedBooksStream.read(reinterpret_cast<char*>(&size), sizeof(int));
+        readedBooksStream.seekp(size * sizeof(int), std::ios::cur);
+        readedBooksStream.seekg(size * sizeof(int), std::ios::cur);
+    }
+
 
     size = getSizeOfReadedBooks();
 
@@ -205,8 +217,10 @@ void User::saveBooks(int index)
         readedBooksStream.write(reinterpret_cast<const char*>(&this->readedBooks[i]), sizeof(int));
     }
 
-
     readedBooksStream.close();
+
+    printReadBooks();
+
 }
 
 void User::loadBooks(int index)
@@ -284,6 +298,10 @@ void User::loadBooks(int index)
 
 
     std::ifstream readedBooksStream("readedBooks.bin", std::ios::binary);
+
+    //that was crusial!!! DON'T FORGET TO START FROM THE BEG!!!
+    readedBooksStream.seekg(0, std::ios::beg);
+
     for (size_t i = 0; i < index; i++)
     {
         readedBooksStream.read(reinterpret_cast<char*>(&size), sizeof(int));
