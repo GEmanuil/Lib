@@ -147,26 +147,28 @@ void User::saveBooks(int index)
 
     int size = 5;
 
-    stream.seekg(0, std::ios::beg);
-    stream.seekp(0, std::ios::beg);
+    //TODO tuk ne trqbva da e beg a ot indexa!!!!!
+    stream.seekg((index) * (sizeof(int)*(5 + 1) /*5 za danni 1 za size*/), std::ios::beg);
+    stream.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
 
-    for (size_t i = 0; i < index; i++)
-    {
-        //here is the real sizze
-        stream.seekg(sizeof(int), std::ios::cur);
-        stream.seekp(sizeof(int), std::ios::cur);
+    //for (size_t i = 0; i < index; i++)
+    //{
+    //    //here is the real sizze
+    //    stream.seekg(sizeof(int), std::ios::cur);
+    //    stream.seekp(sizeof(int), std::ios::cur);
 
-        stream.seekg(sizeof(int) * size, std::ios::cur);
-        stream.seekp(sizeof(int) * size, std::ios::cur);
-    }
+    //    stream.seekg(sizeof(int) * size, std::ios::cur);
+    //    stream.seekp(sizeof(int) * size, std::ios::cur);
+    //}
 
 
-    //size trqbva da e 5 const!!!
+
     //size = getSizeOfBooksInRead();
     size = getSizeOfBooksInRead();
     stream.write(reinterpret_cast<const char*>(&size), sizeof(int));
 
     //TODO tuk mai burkame v pamet koqto ne trqbvaaaa za da go opravq trqbva da opravq onaq funkciq za initializeBookInRead neshto takova
+    //i think fixed
     for (int i = 0; i < 5; i++)
     {
         stream.write(reinterpret_cast<const char*>(&this->booksInRead[i]), sizeof(int));
@@ -183,6 +185,7 @@ void User::saveBooks(int index)
 
     size = 5;
 
+    //TODO tuk ne trqbva da e beg a ot indexa!!!!!
     stream1.seekg(0, std::ios::beg);
     stream1.seekp(0, std::ios::beg);
 
@@ -259,21 +262,22 @@ void User::loadBooks(int index)
     //chetem do kato ne stignem do index-a (masiva ot knigi za tozi user)
     for (size_t i = 0; i < index; i++)
     {
-        stream.seekg(sizeof(int), std::ios::cur);
+        stream1.seekg(sizeof(int), std::ios::cur);
 
-        stream.seekg(sizeof(int) * 5, std::ios::cur);
+        stream1.seekg(sizeof(int) * 5, std::ios::cur);
     }
 
     //stigaiki zapochvame da chetem
 
-    //TODO tuka mai neshto ne se chete kot trqqqq
+    //TODO tuka mai neshto ne se chete kot trqqqq ili ne mai
 
     booksInReadByMonth = new int[5];
-    stream.read(reinterpret_cast<char*>(&size), sizeof(int));
+    stream1.seekg(sizeof(int), std::ios::cur);
+
     for (size_t i = 0; i < 5; i++)
     {
         stream1.read(reinterpret_cast<char*>(&this->booksInReadByMonth[i]), sizeof(int));
-        stream.read(reinterpret_cast<char*>(&size), sizeof(int));
+        //stream.read(reinterpret_cast<char*>(&size), sizeof(int));
     }
 
     stream1.close();
@@ -284,7 +288,7 @@ void User::setBookInRead(int libNum, short month)
     //TODO FIX THE FUNC THE PURPOSE OF IT FOR NOW IT IS ONLY TO INITIALIZE !!!!!!!!!
     intializeBooksInRead(getSizeOfBooksInRead());
 
-    if (getSizeOfBooksInRead() == 5)
+    if (getSizeOfBooksInRead() >= 5)
     {
         std::cout << "The user can't have more than 5 books \n";
         return;
@@ -378,8 +382,8 @@ void User::intializeBooksInRead(int newSize)
 
     delete[] this->booksInRead;
     delete[] this->booksInReadByMonth;
-    this->booksInRead = new int[newSize];
-    this->booksInReadByMonth = new int[newSize];
+    this->booksInRead = new int[5];
+    this->booksInReadByMonth = new int[5];
 
     //from newSize to getSizeOfBooksInRead()
     for (int i = 0; i < getSizeOfBooksInRead(); i++)
@@ -391,7 +395,7 @@ void User::intializeBooksInRead(int newSize)
     delete[] books;
     delete[] booksInReadByMonth;
 
-    setSizeOfBooksInRead(newSize);
+
 }
 
 void User::resizeReadedBooks(int newSize)
