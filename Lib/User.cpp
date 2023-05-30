@@ -280,6 +280,11 @@ void User::loadBooks(int index)
         //stream.read(reinterpret_cast<char*>(&size), sizeof(int));
     }
 
+
+    printBooksInRead();
+
+
+
     stream1.close();
 }
 
@@ -361,7 +366,9 @@ void User::printBooksInRead()
 
     for (int i = 0; i < getSizeOfBooksInRead(); i++)
     {
-        std::cout << booksInRead[i] << std::endl;
+        std::cout << "LibNum: " << booksInRead[i] << std::endl;
+        std::cout << "Month: " << booksInReadByMonth[i] << std::endl;
+        std::cout << std::endl;
     }
 }
 
