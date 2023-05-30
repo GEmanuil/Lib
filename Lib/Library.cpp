@@ -579,8 +579,13 @@ void Library::libSave()
 
     for (int i = 0; i < getCurrentUserSize(); i++)
     {
-        users[i].saveBooks(i);
+        if (users[i].getSizeOfBooksInRead() != 0 || users[i].getSizeOfReadedBooks() != 0)
+        {
+            users[i].saveBooks(i);
+        }
+
         userStream.write(reinterpret_cast<const char*>(&users[i]), sizeof(User));
+
     }
     
 
