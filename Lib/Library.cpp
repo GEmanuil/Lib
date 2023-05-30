@@ -393,6 +393,14 @@ void Library::giveAPaper(char* command)
         }
     }
 
+
+    if (users[targetUser].getSizeOfBooksInRead() >= 5)
+    {
+        std::cout << "The user can't have more than 5 books \n";
+        return;
+    }
+
+
     std::cout << "In which month the book was taken? :\n month number - ";
     std::cin >> month;
     std::cout << "Library number: ";
@@ -442,8 +450,8 @@ void Library::overduePaper(char* command)
 
     //burkame bazata na vseki user i gledame koi knigi sa zakusneli (na koito currentMonth - 1 > getedMonth)
 
-    //v nai loshiqt sluchai shte sa vzeti vsichki knigi
-    int* overduedPaper = new int[getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize()];
+    //v nai loshiqt sluchai vseki user shte ima po 5 knigi
+    int* overduedPaper = new int[getCurrentUserSize()*5];
     size_t overduedPaperIndex = 0;
     for (size_t i = 0; i < getCurrentUserSize(); i++)
     {
@@ -564,6 +572,10 @@ void Library::libSave()
 
     userStream.close();
     userStream.open("users.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+    //truncing  readedBooks.bin file
+    std::fstream readedBooksStream("readedBooks.bin", std::ios::binary | std::ios::trunc | std::ios::in | std::ios::out);
+    readedBooksStream.close();
 
     for (int i = 0; i < getCurrentUserSize(); i++)
     {

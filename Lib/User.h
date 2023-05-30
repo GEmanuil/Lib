@@ -30,7 +30,7 @@ public:
 	int* booksInRead;
 	int* readedBooks;
 
-	void printBooksInRead();
+	void printReadBooks();
 
 private:
 	char name[128];
