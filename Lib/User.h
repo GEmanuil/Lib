@@ -35,7 +35,7 @@ public:
 private:
 	char name[128];
 
-	void resizeBooksInRead(int newSize);
+	void intializeBooksInRead(int newSize);
 	void resizeReadedBooks(int newSize);
 	void fixBooksInReadArr(int libNum);
 

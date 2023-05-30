@@ -371,7 +371,7 @@ void Library::addUser(char* input)
     users[getCurrentUserSize() - 1].setName(input);
 }
 
-void Library::giveABook(char* command)
+void Library::giveAPaper(char* command)
 {
     unsigned int libNum;
     unsigned short month;
@@ -400,7 +400,7 @@ void Library::giveABook(char* command)
     
     //TODO if such paper exists than is it a book or a comic ..
     
-    users[targetUser].printBooksInRead();
+    //users[targetUser].printBooksInRead();
     users[targetUser].setBookInRead(libNum, month);
 
     //getTypeOfPaperFromNum(libNum, typeOfPaper);

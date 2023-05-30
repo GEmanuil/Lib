@@ -32,7 +32,7 @@ int main()
             }
             else if (!strcmp(command, "give"))
             {
-                lib.giveABook(command);
+                lib.giveAPaper(command);
             }
             else if (!strcmp(command, "recive"))
             {
