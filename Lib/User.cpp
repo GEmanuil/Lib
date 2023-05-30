@@ -186,17 +186,20 @@ void User::saveBooks(int index)
     size = 5;
 
     //TODO tuk ne trqbva da e beg a ot indexa!!!!!
-    stream1.seekg(0, std::ios::beg);
-    stream1.seekp(0, std::ios::beg);
+    //stream1.seekg(0, std::ios::beg);
+    //stream1.seekp(0, std::ios::beg);
 
-    for (size_t i = 0; i < index; i++)
-    {
-        stream1.seekg(sizeof(int), std::ios::cur);
-        stream1.seekp(sizeof(int), std::ios::cur);
+    //for (size_t i = 0; i < index; i++)
+    //{
+    //    stream1.seekg(sizeof(int), std::ios::cur);
+    //    stream1.seekp(sizeof(int), std::ios::cur);
 
-        stream1.seekg(sizeof(int) * size, std::ios::cur);
-        stream1.seekp(sizeof(int) * size, std::ios::cur);
-    }
+    //    stream1.seekg(sizeof(int) * size, std::ios::cur);
+    //    stream1.seekp(sizeof(int) * size, std::ios::cur);
+    //}
+
+    stream1.seekg((index) * (sizeof(int) * (5 + 1) /*5 za danni 1 za size*/), std::ios::beg);
+    stream1.seekp((index) * (sizeof(int) * (5 + 1)), std::ios::beg);
 
     size = getSizeOfBooksInRead();
 
