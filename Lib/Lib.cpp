@@ -16,11 +16,16 @@ int main()
     if (!strcmp(command, "open"))
     {
         Library lib;
+        lib.help();
         while (strcmp(command, "close"))
         {
             if (!strcmp(command, "add paper"))
             {
                 lib.addPaper(command);
+            }
+            else if (!strcmp(command, "print"))
+            {
+                lib.print();
             }
             else if (!strcmp(command, "remove paper"))
             {

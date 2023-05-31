@@ -2,10 +2,6 @@
 #pragma warning (disable:4996)
 
 Library::Library()
-    //:
-    //bookStream("books.bin", std::ios::binary, std::ios::in),
-    //comicSream("comic.bin", std::ios::binary), 
-    //periodicalStream("periodical.bin", std::ios::binary)
 {
     openStreams();
     setCurrentBookSize(sizeOfBookFile(bookStream));
@@ -19,10 +15,6 @@ Library::Library()
     periodicals = new Periodical[getCurrentPeriodicalSize()];
 
     loadBooks();
-
-
-    //checking what is in the FILE !!!
-    checkWhatIsInReadedBooksFIle();
 }
 
 //Library::Library(const Library& lib)
@@ -69,7 +61,6 @@ void Library::openStreams()
 void Library::loadBooks()
 {
     bookStream.seekg(0, std::ios::beg);
-    std::cout << "\n Loading Books...\n";
     for (int i = 0; i < getCurrentBookSize(); i++)
     {
         bookStream.read(reinterpret_cast<char*>(&this->books[i]), sizeof(Book));
@@ -77,14 +68,12 @@ void Library::loadBooks()
 
 
     comicSream.seekg(0, std::ios::beg);
-    std::cout << "\n Loading Comics...\n";
     for (int i = 0; i < getCurrentComicsSize(); i++)
     {
         comicSream.read(reinterpret_cast<char*>(&this->comics[i]), sizeof(Comics));
     }
 
     periodicalStream.seekg(0, std::ios::beg);
-    std::cout << "\n Loading Periodicals...\n";
     for (int i = 0; i < getCurrentPeriodicalSize(); i++)
     {
         periodicalStream.read(reinterpret_cast<char*>(&this->periodicals[i]), sizeof(Periodical));
@@ -93,14 +82,11 @@ void Library::loadBooks()
     numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
 
     userStream.seekg(0, std::ios::beg);
-    std::cout << "\n Loading Users...\n";
     for (int i = 0; i < getCurrentUserSize(); i++)
     {
         userStream.read(reinterpret_cast<char*>(&this->users[i]), sizeof(User));
         users[i].loadBooks(i);
     }
-
-    print();
 
 }
 
@@ -413,12 +399,11 @@ void Library::giveAPaper(char* command)
 
     if (!checkIfUserExists(command))
     {
-        std::cout << "User with a name " << command << " doesn't exists. ";
+        std::cout << "User with a name " << command << " doesn't exists. " << std::endl;
+        return;
     }
 
     int targetUser = 0;
-    char name[1024];
-
     for (size_t i = 0; i < getCurrentUserSize(); i++)
     {
         users[i].getName(name);
@@ -441,21 +426,16 @@ void Library::giveAPaper(char* command)
     std::cout << "In which month the paper was taken? :\n month number - ";
     std::cin >> month;
     std::cout << "Library number: ";
+    std::cin >> libNum;
 
     if (!checkIfLibNumExists(libNum))
     {
         std::cout << "Paper with libNum: " << libNum << " doesn't exists";
-    }
+        return;
+    }    
 
-    std::cin >> libNum;
-    
-
-    
-    //users[targetUser].printBooksInRead();
     users[targetUser].setBookInRead(libNum, month);
-
-    //getTypeOfPaperFromNum(libNum, typeOfPaper);
-
+    
 }
 
 void Library::reciveABook(char* command)
@@ -470,7 +450,8 @@ void Library::reciveABook(char* command)
 
     if (!checkIfUserExists(command))
     {
-        std::cout << "User with a name " << command << " doesn't exists. ";
+        std::cout << "User with a name " << command << " doesn't exists. " << std::endl;
+        return;
     }
 
 
@@ -492,6 +473,7 @@ void Library::reciveABook(char* command)
     if (!checkIfLibNumExists(libNum))
     {
         std::cout << "Paper with libNum: " << libNum << " doesn't exists";
+        return;
     }
 
 
@@ -729,6 +711,25 @@ void Library::libSave()
 
     std::cout << "Printing end:: \n";
     print();
+}
+
+void Library::help() const
+{
+    std::cout << "open - opens the library (must enter do to use the other commands)\n";
+    std::cout << "\tAvailable commands:\n";
+    std::cout << "\tadd paper: Add a new paper to the library.\n";
+    std::cout << "\tprint: Print the list of papers and users in the library.\n";
+    std::cout << "\tremove paper: Remove a paper from the library.\n";
+    std::cout << "\tcreate user: Add a new user to the library.\n";
+    std::cout << "\tremove user: Remove a user from the library.\n";
+    std::cout << "\tgive: Assign a paper to a user.\n";
+    std::cout << "\treceive: Receive a paper from a user.\n";
+    std::cout << "\toverdue: overdue papers.\n";
+    std::cout << "\toverdue users: List users with overdue papers.\n";
+    std::cout << "\thelp: show help.\n";
+    std::cout << "\tinformation about users: Display information about all users for their books.\n";
+    std::cout << "close - closes the library\n";
+
 }
 
 void Library::checkWhatIsInReadedBooksFIle()

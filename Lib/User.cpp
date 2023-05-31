@@ -26,7 +26,6 @@ User::User(char* name)
 	readedBooks = new int[getSizeOfReadedBooks()];
 }
 
-//TODO cctor
 User::User(const User& other)
 {
     sizeOfBooksInRead = other.sizeOfBooksInRead;
@@ -175,7 +174,7 @@ User& User::operator+=(const int libNum)
     int month = 0;
     std::cout << "Month: " << month;
     setBookInRead(libNum, month);
-
+    
     return *this;
 }
 
@@ -258,7 +257,6 @@ void User::saveBooks(int index)
 
     stream.close();
 
-    //sushtoto s booksInReadByMonth trqbva da TODO getrs i seters na SizeOfBooksInRead
     std::fstream stream1("booksInReadByMonth.bin", std::ios::binary | std::ios::in | std::ios::end);
     if (!stream1.is_open())
     {
@@ -379,8 +377,6 @@ void User::loadBooks(int index)
 
     //stigaiki zapochvame da chetem
 
-    //TODO tuka mai neshto ne se chete kot trqqqq ili ne mai
-
     booksInReadByMonth = new int[5];
     stream1.seekg(sizeof(int), std::ios::cur);
 
@@ -395,7 +391,6 @@ void User::loadBooks(int index)
 
     std::ifstream readedBooksStream("readedBooks.bin", std::ios::binary);
 
-    //that was crusial!!! DON'T FORGET TO START FROM THE BEG!!!
     readedBooksStream.seekg(0, std::ios::beg);
 
     for (size_t i = 0; i < index; i++)
@@ -414,12 +409,10 @@ void User::loadBooks(int index)
 
     readedBooksStream.close();
 
-    printReadBooks();
 }
 
 void User::setBookInRead(int libNum, short month)
 {
-    //TODO FIX THE FUNC THE PURPOSE OF IT FOR NOW IT IS ONLY TO INITIALIZE !!!!!!!!!
     intializeBooksInRead(getSizeOfBooksInRead());
 
     booksInRead[getSizeOfBooksInRead()] = libNum;
@@ -482,8 +475,6 @@ void User::printReadBooks()
     std::cout << std::endl << std::endl << std::endl;
 }
 
-
-//TODO
 void User::intializeBooksInRead(int newSize)
 {
     int* books = new int[newSize];

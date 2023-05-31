@@ -10,8 +10,6 @@ class Library
 {
 public:
 	Library();
-	Library(const Library& lib);
-	Library& operator=(const Library& lib);
 	~Library();
 
 	void addPaper(char* command);
@@ -27,6 +25,7 @@ public:
 	void print();
 	void printBookWithLibNum(int libNum);
 	void libSave();
+	void help() const;
 
 	//temp func
 	void checkWhatIsInReadedBooksFIle();
