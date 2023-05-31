@@ -42,6 +42,10 @@ int main()
             {
                 lib.overduePaper(command);
             }
+            else if (!strcmp(command, "overdue users"))
+            {
+                lib.overdueUsers(command);
+            }
             std::cin.getline(command, 1024);
         }
         lib.libSave();

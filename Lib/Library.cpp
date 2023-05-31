@@ -69,7 +69,6 @@ void Library::openStreams()
 void Library::loadBooks()
 {
     bookStream.seekg(0, std::ios::beg);
-    bookStream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Books...\n";
     for (int i = 0; i < getCurrentBookSize(); i++)
     {
@@ -78,7 +77,6 @@ void Library::loadBooks()
 
 
     comicSream.seekg(0, std::ios::beg);
-    comicSream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Comics...\n";
     for (int i = 0; i < getCurrentComicsSize(); i++)
     {
@@ -86,7 +84,6 @@ void Library::loadBooks()
     }
 
     periodicalStream.seekg(0, std::ios::beg);
-    periodicalStream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Periodicals...\n";
     for (int i = 0; i < getCurrentPeriodicalSize(); i++)
     {
@@ -96,7 +93,6 @@ void Library::loadBooks()
     numOfPaper = getCurrentBookSize() + getCurrentComicsSize() + getCurrentPeriodicalSize();
 
     userStream.seekg(0, std::ios::beg);
-    userStream.seekp(0, std::ios::beg);
     std::cout << "\n Loading Users...\n";
     for (int i = 0; i < getCurrentUserSize(); i++)
     {
@@ -448,7 +444,7 @@ void Library::reciveABook(char* command)
 
 void Library::overduePaper(char* command)
 {
-    unsigned short month;
+    int month;
     std::cout << "Month: ";
     std::cin >> month;
 
@@ -470,6 +466,7 @@ void Library::overduePaper(char* command)
             }
         }
     }
+
     int* sortedArr = new int[getCurrentBookSize()];
     sortOverduedPaper(overduedPaper, overduedPaperIndex, sortedArr);
 
@@ -478,24 +475,35 @@ void Library::overduePaper(char* command)
 
     for (size_t i = 0; i < overduedPaperIndex; i++)
     {
-        printBookWithLibNum(sortedArr[i]);
+        printBookWithLibNum(overduedPaper[i]);
     }
 
     delete[] sortedArr;
     delete[] overduedPaper;
 }
 
+void Library::overdueUsers(char* command)
+{
+    int month;
+    std::cout << "Month: ";
+    std::cin >> month;
+    char name[128];
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        for (size_t j = 0; j < users[i].getSizeOfBooksInRead(); j++)
+        {
+            if (users[i].booksInReadByMonth[j] < month - 1)
+            {
+                users[i].getName(name);
+                std::cout << "Name: " << name << std::endl;
+                std::cout << "overdued book: " << users[i].booksInRead[j] << std::endl;
+            }
+        }
+    }
+}
+
 void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr)
 {
-    //trqbva da sortirame vsichki bookove po godina i da gi cout-nem
-    // sled tova da gi izkaram po zaglavie book-ovete
-    //sled tova trqq da sortirame periodicalite i comicsite po quantyty a ako e ednakvo po zaglavie
-
-
-
-    //1. mianavame prez vsichki book-ove i gi sravnqvame sus arrOfLibNumsToSort i tezi koito suvpadat
-
-    //TODO 1. ako libNuma e kniga 2. i ako e nai malkata 3. q pisha
 
     int newest = 0;
     int indexOFsorterdArr = 0;
@@ -504,8 +512,7 @@ void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sorte
     {
         for (int j = 0; j < getCurrentBookSize(); j++)
         {
-            getTypeOfPaperFromNum(arrOfLibNumsToSort[j], type);
-            if (!strcmp("book", type) && !libNumExistInArr(sortedArr, indexOFsorterdArr, arrOfLibNumsToSort[j]) && newest <= arrOfLibNumsToSort[j])
+            if (!libNumExistInArr(sortedArr, indexOFsorterdArr, arrOfLibNumsToSort[j]) && newest <= arrOfLibNumsToSort[j])
             {
                 newest = arrOfLibNumsToSort[j];
             }
@@ -867,8 +874,7 @@ void Library::printBookWithLibNum(int libNum)
         {
             std::cout << '\n' << books[i].title << '\n';
             std::cout << '\n' << books[i].autor<< '\n';
-            std::cout << "\n YEAR : " << books[i].title << '\n';
+            std::cout << "\n YEAR : " << books[i].dateOfIssue << '\n';
         }
     }
-    std::cout << "\n Book with libNum: " << libNum << " NOT FOUND!!!";
 }
