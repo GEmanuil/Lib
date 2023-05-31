@@ -11,6 +11,16 @@ public:
 	User(char* name);
 	User(const User& user);
 	User& operator=(const User& other);
+	bool operator==(const User& other);
+	bool operator!=(const User& other);
+	bool operator<(const User& other);
+	bool operator<=(const User& other);
+	bool operator>(const User& other);
+	bool operator>=(const User& other);
+	int operator[](const int libNum);
+	User& operator+=(const int libNum);
+	User& operator-=(const int libNum);
+
 	~User();
 
 	void setSizeOfBooksInRead(int size);
@@ -19,9 +29,10 @@ public:
 	void setBookInRead(int libNum, short month);
 	void setBookReaded(int libNum);
 
+	//TODO make geters const
 	void getName(char* name);
 	int getSizeOfBooksInRead();
-	int getSizeOfReadedBooks();
+	int getSizeOfReadedBooks() const;
 
 	void saveBooks(int index);
 	void loadBooks(int index);

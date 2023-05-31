@@ -91,6 +91,102 @@ User& User::operator=(const User& other)
     return *this;
 }
 
+bool User::operator==(const User& other)
+{
+    if (!strcmp(other.name, name))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool User::operator!=(const User& other)
+{
+    if (!strcmp(other.name, name))
+    {
+        return false;
+    }
+    return true;
+   
+}
+
+bool User::operator<(const User& other)
+{
+    if (this->getSizeOfReadedBooks() < other.getSizeOfReadedBooks())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool User::operator<=(const User& other)
+{
+    if (this->getSizeOfReadedBooks() <= other.getSizeOfReadedBooks())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool User::operator>(const User& other)
+{
+    if (this->getSizeOfReadedBooks() > other.getSizeOfReadedBooks())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool User::operator>=(const User& other)
+{
+    if (this->getSizeOfReadedBooks() >= other.getSizeOfReadedBooks())
+    {
+        return true;
+    }
+    return false;
+}
+
+int User::operator[](const int libNum)
+{
+    for (size_t i = 0; i < getSizeOfReadedBooks(); i++)
+    {
+        if (libNum == readedBooks[i])
+        {
+            //0 => read
+            return 0;
+        }
+    }
+
+    for (size_t i = 0; i < getSizeOfBooksInRead(); i++)
+    {
+        if (libNum == readedBooks[i])
+        {
+            //1 => in read
+            return 1;
+        }
+    }
+
+    //2 => never read
+    return 2;
+}
+
+User& User::operator+=(const int libNum)
+{
+    int month;
+    std::cout << "Month: " << month;
+    setBookInRead(libNum, month);
+
+    return *this;
+}
+
+User& User::operator-=(const int libNum)
+{
+
+    setBookReaded(libNum);
+
+    return *this;
+}
+
 User::~User()
 {
 
@@ -125,7 +221,7 @@ int User::getSizeOfBooksInRead()
 	return sizeOfBooksInRead;
 }
 
-int User::getSizeOfReadedBooks()
+int User::getSizeOfReadedBooks() const
 {
 	return sizeOfReadedBooks;
 }
