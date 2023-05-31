@@ -30,6 +30,10 @@ int main()
             {
                 lib.addUser(command);
             }
+            else if (!strcmp(command, "remove user"))
+            {
+                lib.removeUser(command);
+            }
             else if (!strcmp(command, "give"))
             {
                 lib.giveAPaper(command);
@@ -45,6 +49,10 @@ int main()
             else if (!strcmp(command, "overdue users"))
             {
                 lib.overdueUsers(command);
+            }
+            else if (!strcmp(command, "information about users"))
+            {
+                lib.infUsers(command);
             }
             std::cin.getline(command, 1024);
         }

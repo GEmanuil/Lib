@@ -371,6 +371,28 @@ void Library::addUser(char* input)
     users[getCurrentUserSize() - 1].setName(input);
 }
 
+void Library::removeUser(char* command)
+{
+    char name1[128];
+    char name2[128];
+    std::cout << "Name of user: ";
+    std::cin >> name1;
+
+    int indexOfUserToRemove = 0;
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        users[i].getName(name2);
+        if (!strcmp(name1, name2))
+        {
+            indexOfUserToRemove = i;
+        }
+    }
+
+    users[indexOfUserToRemove] = users[getCurrentUserSize() - 1];
+    setCurrentUserSize(getCurrentUserSize() - 1);
+    std::cout << "The user will be removed when library closed." << std::endl;
+}
+
 void Library::giveAPaper(char* command)
 {
     unsigned int libNum;
@@ -500,6 +522,33 @@ void Library::overdueUsers(char* command)
             }
         }
     }
+}
+
+void Library::infUsers(char* command)
+{
+    int* userIndexesSortedArr = new int[getCurrentUserSize()];
+    int userIndex = 0;
+    int numOfReadedBooks = INT_MAX;
+    char name[128];
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        for (size_t j = 0; j < getCurrentUserSize(); j++)
+        {
+            //tursim usera s nai-malko procheteni knigi
+            if (numOfReadedBooks > users[j].getSizeOfReadedBooks() && !libNumExistInArr(userIndexesSortedArr, getCurrentUserSize(), j))
+            {
+                numOfReadedBooks = users[j].getSizeOfReadedBooks();
+                userIndex = j;
+            }
+        }
+        userIndexesSortedArr[i] = userIndex;
+        users[userIndex].getName(name);
+        numOfReadedBooks = INT_MAX;
+        std::cout << "User: " << name << '\n';
+        std::cout << "number of readed books: " << users[userIndex].getSizeOfReadedBooks() << '\n';
+    }
+
+    delete[] userIndexesSortedArr;
 }
 
 void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr)

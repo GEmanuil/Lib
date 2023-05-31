@@ -17,10 +17,12 @@ public:
 	void addPaper(char* command);
 	void removePaper(char* command);
 	void addUser(char* command);
+	void removeUser(char* command);
 	void giveAPaper(char* command);
 	void reciveABook(char* command);
 	void overduePaper(char* command);
 	void overdueUsers(char* command);
+	void infUsers(char* command);
 
 	void print();
 	void printBookWithLibNum(int libNum);
