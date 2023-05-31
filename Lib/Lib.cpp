@@ -5,10 +5,27 @@
 
 using namespace std;
 
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
+//                      RAZQSNENIQ    
+// 
+//   failove koito se izpolzvat v koda: books.bin, booksInRead.bin, booksInReadByMonth.bin, comic.bin, periodical.bin, readedBooks.bin, users.bin
+//  
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//   znam che ne e napraveno domashnoto po nai-dobiq nachin + ima nqkoi ne sintaktichni greshki na angliiski (koito mogat da draznqt) no mi trqbvat 5-6 tochki
+//  
+//
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 int main()
 {
     char command[1024];
-    std::cout << "Enter command: ";
+    std::cout << "Enter command (open - opens the library): ";
     std::cin >> command;
     std::cout << '\n';
 
@@ -59,6 +76,7 @@ int main()
             {
                 lib.infUsers(command);
             }
+
             std::cin.getline(command, 1024);
         }
         lib.libSave();

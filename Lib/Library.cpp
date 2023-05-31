@@ -17,15 +17,6 @@ Library::Library()
     loadBooks();
 }
 
-//Library::Library(const Library& lib)
-//{
-//}
-
-//Library& Library::operator=(const Library& lib)
-//{
-//    // TODO: insert return statement here
-//}
-
 void Library::openStreams() 
 {
     bookStream.open("books.bin", std::ios::binary | std::ios::out | std::ios::in | std::ios::ate);
@@ -146,13 +137,6 @@ void Library::resizeBooksArr(size_t newSize)
 
     delete[] books;
 
-    //std::cout << "\n couting the authors and titles from obj arr: \n";
-    //for (int i = 0; i < getCurrentBookSize(); i++)
-    //{
-    //    std::cout << "Author: " << this->books[i].autor << '\n';
-    //    std::cout << "Title: " << this->books[i].title << '\n';
-    //}
-
     setCurrentBookSize(newSize);
 }
 
@@ -174,7 +158,7 @@ void Library::addComics(std::fstream& stream)
     strcpy(comics[getCurrentComicsSize() - 1].publisher, input);
 
     std::cout << "Genre: ";
-    std::cin >> comics[getCurrentComicsSize() - 1].genre;
+    comics[getCurrentComicsSize() - 1].setGenre();
 
     std::cout << "Short description about the book: ";
     std::cin.ignore();
@@ -202,9 +186,6 @@ void Library::addComics(std::fstream& stream)
     ++numOfPaper;
     comics[getCurrentComicsSize() - 1].libNumber = numOfPaper;
 
-    //stream.seekg(0, std::ios::end);
-    //stream.seekp(0, std::ios::end);
-    //stream.write(reinterpret_cast<const char*>(&books[getCurrentComicsSize() - 1]), sizeof(Book));
 }
 
 void Library::resizeComicsArr(size_t newSize)
@@ -227,14 +208,6 @@ void Library::resizeComicsArr(size_t newSize)
     }
 
     delete[] comics;
-
-    std::cout << "\n couting the authors and titles from obj arr: \n";
-    for (int i = 0; i < getCurrentComicsSize(); i++)
-    {
-        std::cout << "Author: " << this->comics[i].autor << '\n';
-        std::cout << "Num:   " << this->comics[i].libNumber << '\n';
-        std::cout << "Title: " << this->comics[i].title << '\n' << '\n';
-    }
 
     setCurrentComicsSize(newSize);
 }
@@ -301,13 +274,6 @@ void Library::resizePeriodicalssArr(size_t newSize)
 
     delete[] periodicals;
 
-    std::cout << "\n couting the authors and titles from obj arr: \n";
-    for (int i = 0; i < getCurrentPeriodicalSize(); i++)
-    {
-        std::cout << "Num:   " << this->periodicals[i].libNumber << '\n';
-        std::cout << "Title: " << this->periodicals[i].title << '\n' << '\n';
-    }
-
     setCurrentPeriodicalSize(newSize);
 }
 
@@ -335,13 +301,6 @@ void Library::resizeUserArr(size_t newSize)
 
     delete[] users;
 
-    std::cout << "\n couting the users: \n";
-    for (int i = 0; i < getCurrentUserSize(); i++)
-    {
-        char name[128];
-        this->users[i].getName(name);
-        std::cout << "Num:   " << name << '\n';
-    }
 
     setCurrentUserSize(newSize);
 }
@@ -589,7 +548,7 @@ void Library::sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sorte
 
 }
 
-bool Library::libNumExistInArr(int* arr, int size, int num)
+bool Library::libNumExistInArr(int* arr, int size, int num) const
 {
     for (size_t i = 0; i < size; i++)
     {
@@ -601,7 +560,7 @@ bool Library::libNumExistInArr(int* arr, int size, int num)
     return false;
 }
 
-bool Library::checkIfLibNumExists(int libNUm)
+bool Library::checkIfLibNumExists(int libNUm) const
 {
     for (size_t i = 0; i < getCurrentBookSize(); i++)
     {
@@ -629,7 +588,7 @@ bool Library::checkIfLibNumExists(int libNUm)
     return false;
 }
 
-bool Library::checkIfUserExists(char* name)
+bool Library::checkIfUserExists(char* name) const
 {
     char name2[128];
     for (size_t i = 0; i < getCurrentUserSize(); i++)
@@ -705,12 +664,10 @@ void Library::libSave()
         userStream.write(reinterpret_cast<const char*>(&users[i]), sizeof(User));
 
     }
-    
-    //checking what is in FILE !!!
-    checkWhatIsInReadedBooksFIle();
 
-    std::cout << "Printing end:: \n";
-    print();
+
+    //std::cout << "Printing end:: \n";
+    //print();
 }
 
 void Library::help() const
@@ -759,7 +716,7 @@ void Library::checkWhatIsInReadedBooksFIle()
     stream.close();
 }
 
-short Library::sizeOfBookFile(std::fstream& stream)
+short Library::sizeOfBookFile(std::fstream& stream) const
 {
     stream.seekg(0, std::ios::end);
     short size = stream.tellg() / sizeof(Book);
@@ -769,7 +726,7 @@ short Library::sizeOfBookFile(std::fstream& stream)
     return size;
 }
 
-short Library::sizeOfComicFile(std::fstream& stream)
+short Library::sizeOfComicFile(std::fstream& stream) const
 {
     stream.seekg(0, std::ios::end);
     short size = stream.tellg() / sizeof(Comics);
@@ -778,7 +735,7 @@ short Library::sizeOfComicFile(std::fstream& stream)
     return size;
 }
 
-short Library::sizeOfPeriodicalFile(std::fstream& stream)
+short Library::sizeOfPeriodicalFile(std::fstream& stream) const
 {
     stream.seekg(0, std::ios::end);
     short size = stream.tellg() / sizeof(Periodical);
@@ -787,7 +744,7 @@ short Library::sizeOfPeriodicalFile(std::fstream& stream)
     return size;
 }
 
-short Library::sizeOfUsersFile(std::fstream& stream)
+short Library::sizeOfUsersFile(std::fstream& stream) const
 {
     stream.seekg(0, std::ios::end);
     short size = stream.tellg() / sizeof(User);
@@ -801,7 +758,7 @@ void Library::setCurrentBookSize(int size)
     this->currentBookSize = size;
 }
 
-int Library::getCurrentBookSize()
+int Library::getCurrentBookSize() const
 {
     return currentBookSize;
 }
@@ -811,7 +768,7 @@ void Library::setCurrentComicsSize(int size)
     this->currentComicsSize = size;
 }
 
-int Library::getCurrentComicsSize()
+int Library::getCurrentComicsSize() const
 {
     return currentComicsSize;
 }
@@ -821,7 +778,7 @@ void Library::setCurrentPeriodicalSize(int size)
     this->currentPeriodicalSize = size;
 }
 
-int Library::getCurrentPeriodicalSize()
+int Library::getCurrentPeriodicalSize() const
 {
     return currentPeriodicalSize;
 }
@@ -831,7 +788,7 @@ void Library::setCurrentUserSize(int size)
     this->currentUsersSize = size;
 }
 
-int Library::getCurrentUserSize()
+int Library::getCurrentUserSize() const
 {
     return currentUsersSize;
 }
@@ -989,6 +946,7 @@ void Library::print()
     {
         this->users[i].getName(name);
         std::cout << "Name:   " << name << '\n';
+        this->users[i].printReadBooks();
     }
 }
 

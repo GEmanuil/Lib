@@ -210,12 +210,12 @@ void User::setName(char name[128])
     strcpy(this->name, name);
 }
 
-void User::getName(char* name)
-{
+void User::getName(char* name) const
+{ 
     strcpy(name, this->name);
 }
 
-int User::getSizeOfBooksInRead()
+int User::getSizeOfBooksInRead() const
 {
 	return sizeOfBooksInRead;
 }
@@ -453,7 +453,7 @@ void User::fixBooksInReadArr(int libNum)
 }
 
 
-void User::printReadBooks()
+void User::printReadBooks() const
 {
 
     std::cout << "Book In Read: " << std::endl;

@@ -53,23 +53,23 @@ private:
 	void loadBooks();
 	void sortOverduedPaper(int* arrOfLibNumsToSort, size_t size, int* sortedArr);
 	void getTypeOfPaperFromNum(unsigned int libNum, char* type);
-	bool libNumExistInArr(int* arr, int size, int num);
-	bool checkIfLibNumExists(int libNUm);
-	bool checkIfUserExists(char* name);
+	bool libNumExistInArr(int* arr, int size, int num) const;
+	bool checkIfLibNumExists(int libNUm) const;
+	bool checkIfUserExists(char* name) const;
 
-	short sizeOfBookFile(std::fstream& stream);
-	short sizeOfComicFile(std::fstream& stream);
-	short sizeOfPeriodicalFile(std::fstream& stream);
-	short sizeOfUsersFile(std::fstream& stream);
+	short sizeOfBookFile(std::fstream& stream) const;
+	short sizeOfComicFile(std::fstream& stream) const;
+	short sizeOfPeriodicalFile(std::fstream& stream) const;
+	short sizeOfUsersFile(std::fstream& stream) const;
 
 	void setCurrentBookSize(int size);
-	int getCurrentBookSize();
+	int getCurrentBookSize() const;
 	void setCurrentComicsSize(int size);
-	int getCurrentComicsSize();
+	int getCurrentComicsSize() const;
 	void setCurrentPeriodicalSize(int size);
-	int getCurrentPeriodicalSize();
+	int getCurrentPeriodicalSize() const;
 	void setCurrentUserSize(int size);
-	int getCurrentUserSize();
+	int getCurrentUserSize() const;
 
 
 	int currentUsersSize;

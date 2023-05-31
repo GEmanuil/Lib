@@ -30,9 +30,8 @@ public:
 	void setBookInRead(int libNum, short month);
 	void setBookReaded(int libNum);
 
-	//TODO make geters const
-	void getName(char* name);
-	int getSizeOfBooksInRead();
+	void getName(char* name) const;
+	int getSizeOfBooksInRead() const;
 	int getSizeOfReadedBooks() const;
 
 	void saveBooks(int index);
@@ -42,7 +41,7 @@ public:
 	int* booksInRead;
 	int* readedBooks;
 
-	void printReadBooks();
+	void printReadBooks() const;
 
 private:
 	char name[128];
