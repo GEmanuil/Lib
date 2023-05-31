@@ -10,6 +10,7 @@ public:
 	User();
 	User(char* name);
 	User(const User& user);
+
 	User& operator=(const User& other);
 	bool operator==(const User& other);
 	bool operator!=(const User& other);

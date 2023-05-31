@@ -342,8 +342,6 @@ void Library::resizeUserArr(size_t newSize)
     this->users = new User[newSize];
 
 
-    //TODO moje bi tuk e problema shtot user nqma operatr= i copy constructor
-
     for (int i = 0; i < newSize; i++)
     {
         this->users[i] = users[i];
@@ -366,6 +364,18 @@ void Library::addUser(char* input)
 {
     std::cout << "Name: ";
     std::cin.getline(input, 1024);
+    char name[128];
+
+    //check if user with a name == input exists
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        users[i].getName(name);
+        if (!strcmp(input, name))
+        {
+            std::cout << "User with a name: " << input << " already exists. \n";
+            return;
+        }
+    }
 
     resizeUserArr(getCurrentUserSize() + 1);
     users[getCurrentUserSize() - 1].setName(input);
@@ -393,17 +403,22 @@ void Library::removeUser(char* command)
     std::cout << "The user will be removed when library closed." << std::endl;
 }
 
-void Library::giveAPaper(char* command)
+void Library::giveAPaper(char* command) 
 {
     unsigned int libNum;
     unsigned short month;
+    char name[128];
     std::cout << "To: ";
     std::cin >> command;
-   
+
+    if (!checkIfUserExists(command))
+    {
+        std::cout << "User with a name " << command << " doesn't exists. ";
+    }
 
     int targetUser = 0;
     char name[1024];
-    //TODO if username doesnt exist
+
     for (size_t i = 0; i < getCurrentUserSize(); i++)
     {
         users[i].getName(name);
@@ -418,17 +433,23 @@ void Library::giveAPaper(char* command)
 
     if (users[targetUser].getSizeOfBooksInRead() >= 5)
     {
-        std::cout << "The user can't have more than 5 books \n";
+        std::cout << "The user can't have more than 5 papers \n";
         return;
     }
 
 
-    std::cout << "In which month the book was taken? :\n month number - ";
+    std::cout << "In which month the paper was taken? :\n month number - ";
     std::cin >> month;
     std::cout << "Library number: ";
+
+    if (!checkIfLibNumExists(libNum))
+    {
+        std::cout << "Paper with libNum: " << libNum << " doesn't exists";
+    }
+
     std::cin >> libNum;
     
-    //TODO if such paper exists than is it a book or a comic ..
+
     
     //users[targetUser].printBooksInRead();
     users[targetUser].setBookInRead(libNum, month);
@@ -446,7 +467,13 @@ void Library::reciveABook(char* command)
 
     int targetUser = 0;
     char name[1024];
-    //TODO if username doesnt exist
+
+    if (!checkIfUserExists(command))
+    {
+        std::cout << "User with a name " << command << " doesn't exists. ";
+    }
+
+
     for (size_t i = 0; i < getCurrentUserSize(); i++)
     {
         users[i].getName(name);
@@ -460,6 +487,13 @@ void Library::reciveABook(char* command)
 
     std::cout << "Library number: ";
     std::cin >> libNum;
+
+
+    if (!checkIfLibNumExists(libNum))
+    {
+        std::cout << "Paper with libNum: " << libNum << " doesn't exists";
+    }
+
 
     users[targetUser].setBookReaded(libNum);
 }
@@ -578,6 +612,48 @@ bool Library::libNumExistInArr(int* arr, int size, int num)
     for (size_t i = 0; i < size; i++)
     {
         if (arr[i] == num)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Library::checkIfLibNumExists(int libNUm)
+{
+    for (size_t i = 0; i < getCurrentBookSize(); i++)
+    {
+        if (books[i].libNumber == libNUm)
+        {
+            return true;
+        }
+    }
+
+    for (size_t i = 0; i < getCurrentComicsSize(); i++)
+    {
+        if (comics[i].libNumber == libNUm)
+        {
+            return true;
+        }
+    }
+
+    for (size_t i = 0; i < getCurrentPeriodicalSize(); i++)
+    {
+        if (periodicals[i].libNumber == libNUm)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Library::checkIfUserExists(char* name)
+{
+    char name2[128];
+    for (size_t i = 0; i < getCurrentUserSize(); i++)
+    {
+        users[i].getName(name2);
+        if (!strcmp(name, name2))
         {
             return true;
         }
@@ -922,7 +998,7 @@ void Library::printBookWithLibNum(int libNum)
         if (libNum == books->libNumber)
         {
             std::cout << '\n' << books[i].title << '\n';
-            std::cout << '\n' << books[i].autor<< '\n';
+            std::cout << '\n' << books[i].autor << '\n';
             std::cout << "\n YEAR : " << books[i].dateOfIssue << '\n';
         }
     }

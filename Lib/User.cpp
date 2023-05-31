@@ -172,7 +172,7 @@ int User::operator[](const int libNum)
 
 User& User::operator+=(const int libNum)
 {
-    int month;
+    int month = 0;
     std::cout << "Month: " << month;
     setBookInRead(libNum, month);
 
